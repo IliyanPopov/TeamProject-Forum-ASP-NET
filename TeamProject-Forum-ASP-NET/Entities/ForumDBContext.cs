@@ -15,6 +15,8 @@ namespace TeamProject_Forum_ASP_NET.Entities
         {
         }
 
+        public int MyProperty { get; set; }
+
         public static ForumDBContext Create()
         {
             return new ForumDBContext();
