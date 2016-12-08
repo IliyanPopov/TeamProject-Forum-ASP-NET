@@ -14,11 +14,7 @@ namespace TeamProject_Forum_ASP_NET.Entities
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
-        public int MyProperty { get; set; }
-
-        public string NameTest { get; set; }
-
+        
         public static ForumDBContext Create()
         {
             return new ForumDBContext();
