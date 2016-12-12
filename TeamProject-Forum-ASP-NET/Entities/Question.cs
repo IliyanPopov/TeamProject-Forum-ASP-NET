@@ -11,12 +11,12 @@ namespace TeamProject_Forum_ASP_NET.Entities
     public class Question
     {
         //private ICollection<Tag> tags;
-        //private ICollection<Answer> answers;
+        private ICollection<Answer> answers;
 
         public Question()
         {
             this.DateAdded = DateTime.Now;
-            // this.answers = new HashSet<Answer>();
+            this.answers = new HashSet<Answer>();
             // this.tags = new HashSet<Tag>();
         }
 
@@ -26,7 +26,7 @@ namespace TeamProject_Forum_ASP_NET.Entities
             this.Title = title;
             this.Content = content;
             this.DateAdded = DateTime.Now;
-            // this.answers = new HashSet<Answer>();
+            this.answers = new HashSet<Answer>();
             // this.tags = new HashSet<Tag>();
         }
 
@@ -46,11 +46,11 @@ namespace TeamProject_Forum_ASP_NET.Entities
 
         public virtual ApplicationUser Author { get; set; }
 
-        //public virtual ICollection<Answer> Answers
-        //{
-        //    get { return this.answers; }
-        //    set { this.answers = value; }
-        //}
+        public virtual ICollection<Answer> Answers
+        {
+            get { return this.answers; }
+            set { this.answers = value; }
+        }
 
         //[ForeignKey("Category")]
         //public int CategoryId { get; set; }
@@ -63,10 +63,9 @@ namespace TeamProject_Forum_ASP_NET.Entities
         //    set { this.tags = value; }
         //}
 
-        //public bool isAuthor(string name)
-        //{
-        //    return this.Author.UserName.Equals(name);
-        //}
-
+        public bool isAuthor(string name)
+        {
+            return this.Author.UserName.Equals(name);
+        }
     }
 }

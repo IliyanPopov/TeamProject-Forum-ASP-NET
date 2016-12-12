@@ -10,7 +10,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("List","Question");
+            return RedirectToAction("List", "Question");
         }
 
         public ActionResult About()

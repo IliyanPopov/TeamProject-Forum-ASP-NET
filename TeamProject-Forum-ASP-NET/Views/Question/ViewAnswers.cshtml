@@ -1,0 +1,57 @@
+﻿@model TeamProject_Forum_ASP_NET.ViewModels.QuestionViewModel
+
+@{
+    ViewBag.Title = "ViewAnswers";
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-offset-2 col-sm-8">
+            <article>
+                <header>
+                    <h2>
+                        @Html.ActionLink(Model.Title, "ViewAnswers", "Question", new { @id = Model.Id }, null)
+                    </h2>
+                </header>
+                <p>
+                    @Model.Content
+                </p>
+                <footer>
+                    <small>
+                        --author @Model.Author.UserName
+                    </small>
+                    <small>--posted on @Model.DateAdded</small>
+                    <span class="pull-right">
+                        <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                        <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new { @id = Model.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                    </span>
+                </footer>
+            </article>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var answer in Model.Answers)
+        {
+            <div class="col-sm-offset-2 col-sm-8">
+                <article>
+                    <p>
+                        @answer.Content
+                    </p>
+                    <footer>
+                        <small>
+                            --author @answer.Author.UserName
+                        </small>
+                        <small>--posted on @answer.DateAdded</small>
+                        <span class="pull-right">
+                            <span>@Html.ActionLink("Edit", "Edit", "Answer", new { @id = answer.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                            <span>@Html.ActionLink("Delete", "Delete", "Answer", new { @id = answer.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                        </span>
+                    </footer>
+                </article>
+            </div>
+        }
+
+    </div>
+</div>

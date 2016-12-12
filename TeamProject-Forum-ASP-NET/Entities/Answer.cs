@@ -10,6 +10,19 @@ namespace TeamProject_Forum_ASP_NET.Entities
 {
     public class Answer
     {
+        public Answer()
+        {
+            this.DateAdded = DateTime.Now;
+        }
+
+        public Answer(string authorId, string content, int questionId)
+        {
+            this.AuthorId = authorId;
+            this.Content = content;
+            this.QuestionId = questionId;
+            this.DateAdded = DateTime.Now;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -19,7 +32,7 @@ namespace TeamProject_Forum_ASP_NET.Entities
         public DateTime DateAdded { get; set; }
 
         [ForeignKey("Author")]
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
 
