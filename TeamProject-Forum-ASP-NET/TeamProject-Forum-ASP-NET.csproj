@@ -167,10 +167,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\User\AccountController.cs" />
+    <Compile Include="Controllers\User\HomeController.cs" />
+    <Compile Include="Controllers\User\ManageController.cs" />
+    <Compile Include="Entities\Answer.cs" />
+    <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\ForumDBContext.cs" />
+    <Compile Include="Entities\Question.cs" />
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Admin\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

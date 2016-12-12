@@ -7,7 +7,6 @@ using TeamProject_Forum_ASP_NET.Models;
 
 namespace TeamProject_Forum_ASP_NET.Entities
 {
-
     public class ForumDBContext : IdentityDbContext<ApplicationUser>
     {
         public ForumDBContext()
