@@ -170,6 +170,7 @@
     <Compile Include="Controllers\User\AccountController.cs" />
     <Compile Include="Controllers\User\HomeController.cs" />
     <Compile Include="Controllers\User\ManageController.cs" />
+    <Compile Include="Controllers\User\QuestionController.cs" />
     <Compile Include="Entities\Answer.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\ForumDBContext.cs" />
@@ -244,6 +245,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\Admin\" />
+    <Folder Include="Views\Answer\" />
+    <Folder Include="Views\Question\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
