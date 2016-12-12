@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using TeamProject_Forum_ASP_NET.Entities;
 using TeamProject_Forum_ASP_NET.Models;
 using TeamProject_Forum_ASP_NET.Entities;
 
