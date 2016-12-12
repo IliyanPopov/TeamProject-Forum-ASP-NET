@@ -22,6 +22,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         {
             var questions = db.Questions.ToList();
             return View(questions);
+
         }
 
         [HttpGet]

@@ -11,7 +11,7 @@ namespace TeamProject_Forum_ASP_NET.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "TeamProject_Forum_ASP_NET.Entities.ForumDBContext";
+           // ContextKey = "TeamProject_Forum_ASP_NET.Entities.ForumDBContext";
         }
 
         protected override void Seed(TeamProject_Forum_ASP_NET.Entities.ForumDBContext context)

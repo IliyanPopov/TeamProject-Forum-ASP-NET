@@ -22,9 +22,7 @@ namespace TeamProject_Forum_ASP_NET.Entities
         public static ForumDBContext Create()
         {
             return new ForumDBContext();
-        }
-
-        public System.Data.Entity.DbSet<TeamProject_Forum_ASP_NET.Models.ApplicationUser> ApplicationUsers { get; set; }
+        }  
     }
 
 }

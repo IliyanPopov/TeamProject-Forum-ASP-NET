@@ -1,7 +1,14 @@
-﻿
+﻿@model List<TeamProject_Forum_ASP_NET.Entities.Question>
 @{
     ViewBag.Title = "List";
 }
 
 <h2>List Questions</h2>
 
+@foreach (var question in Model)
+{
+    <h1>@question.Title</h1>
+    <h2>@question.Content</h2>
+    <h2>@question.Author.UserName</h2>
+
+}
