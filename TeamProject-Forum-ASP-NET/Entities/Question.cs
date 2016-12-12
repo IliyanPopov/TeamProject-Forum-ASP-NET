@@ -11,12 +11,13 @@ namespace TeamProject_Forum_ASP_NET.Entities
     public class Question
     {
         //private ICollection<Tag> tags;
-
         //private ICollection<Answer> answers;
 
         public Question()
         {
-            //this.answers = new HashSet<Answer>();
+            this.DateAdded = DateTime.Now;
+            // this.answers = new HashSet<Answer>();
+            // this.tags = new HashSet<Tag>();
         }
 
         public Question(string authorId, string title, string content)
@@ -25,7 +26,8 @@ namespace TeamProject_Forum_ASP_NET.Entities
             this.Title = title;
             this.Content = content;
             this.DateAdded = DateTime.Now;
-           // this.answers = new HashSet<Answer>();
+            // this.answers = new HashSet<Answer>();
+            // this.tags = new HashSet<Tag>();
         }
 
         [Key]
