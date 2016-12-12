@@ -7,25 +7,12 @@ using TeamProject_Forum_ASP_NET.Entities;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.User
 {
-    public class QuestionController : Controller
+    public class AnswerController : Controller
     {
         private ForumDBContext db = new ForumDBContext();
 
-        // GET: Question
+        // GET: Answer
         public ActionResult Index()
-        {
-            return RedirectToAction("List");
-        }
-
-        [HttpGet]
-        public ActionResult List()
-        {
-            var questions = db.Questions.ToList();
-            return View(questions);
-        }
-
-        [HttpGet]
-        public ActionResult Create()
         {
             return View();
         }
