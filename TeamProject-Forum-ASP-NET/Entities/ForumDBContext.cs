@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TeamProject_Forum_ASP_NET.Models;
+using System.Data.Entity;
 
 namespace TeamProject_Forum_ASP_NET.Entities
 {
@@ -13,11 +14,17 @@ namespace TeamProject_Forum_ASP_NET.Entities
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+
+        public virtual IDbSet<Question> Questions { get; set; }
+
+        //public virtual IDbSet<Answer> Answers { get; set; }
+
         public static ForumDBContext Create()
         {
             return new ForumDBContext();
         }
+
+        public System.Data.Entity.DbSet<TeamProject_Forum_ASP_NET.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 
 }

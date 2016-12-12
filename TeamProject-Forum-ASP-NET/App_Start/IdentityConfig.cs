@@ -12,7 +12,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using TeamProject_Forum_ASP_NET.Entities;
 using TeamProject_Forum_ASP_NET.Models;
-using TeamProject_Forum_ASP_NET.Entities;
 
 namespace TeamProject_Forum_ASP_NET
 {
