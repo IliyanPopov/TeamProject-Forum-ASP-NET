@@ -33,7 +33,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             var model = new QuestionViewModel();
-            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);
+            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);            
 
             if (question == null)
             {
@@ -41,10 +41,15 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             var answers = db.Answers.Where(q => q.QuestionId == id).ToList();
+            question.ViewCount++;
+
+            db.Entry(question).State = EntityState.Modified;
+            db.SaveChanges();
 
             model.Id = question.Id;
             model.Title = question.Title;
             model.Content = question.Content;
+            model.ViewCount = question.ViewCount;
             model.DateAdded = question.DateAdded;
             model.Author = question.Author;
             model.Answers = answers;
@@ -67,11 +72,14 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         {
             if (ModelState.IsValid)
             {
-                var authorId = db.Users
-                    .First(u => u.UserName == this.User.Identity.Name).Id;
+                var author = db.Users
+                    .First(u => u.UserName == this.User.Identity.Name);
+                var authorId = author.Id;
 
                 var question = new Question(authorId, model.Title, model.Content);
+                author.PostsCount++;
 
+                db.Entry(author).State = EntityState.Modified;
                 db.Questions.Add(question);
                 db.SaveChanges();
 
@@ -166,6 +174,13 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             if (question == null)
             {
                 return HttpNotFound();
+            }
+
+            var answers = question.Answers.ToList();
+
+            foreach (var answer in answers)
+            {
+                db.Answers.Remove(answer);
             }
 
             db.Questions.Remove(question);

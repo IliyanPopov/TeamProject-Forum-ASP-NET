@@ -39,6 +39,8 @@ namespace TeamProject_Forum_ASP_NET.Entities
         [Required]
         public string Content { get; set; }
 
+        public int ViewCount { get; set; }
+
         public DateTime DateAdded { get; set; }
 
         [ForeignKey("Author")]

@@ -190,6 +190,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\RankUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -254,6 +255,7 @@
     <Content Include="Views\Answer\Create.cshtml" />
     <Content Include="Views\Answer\Edit.cshtml" />
     <Content Include="Views\Answer\Delete.cshtml" />
+    <Content Include="Views\Home\RankList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

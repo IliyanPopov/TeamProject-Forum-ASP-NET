@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject_Forum_ASP_NET.Entities;
 
 namespace TeamProject_Forum_ASP_NET.Controllers
 {
@@ -25,6 +26,17 @@ namespace TeamProject_Forum_ASP_NET.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult RankList()
+        {
+            using (var db = new ForumDBContext())
+            {
+                var users = db.Users.OrderBy(u => u.PostsCount).ToList();
+
+                return View(users);
+            }
         }
     }
 }

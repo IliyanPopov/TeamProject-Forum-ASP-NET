@@ -18,6 +18,8 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         [Required]
         public string Content { get; set; }
 
+        public int ViewCount { get; set; }
+        
         public string AuthorId { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
