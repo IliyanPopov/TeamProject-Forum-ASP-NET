@@ -74,7 +74,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 db.Questions.Add(question);
                 db.SaveChanges();
 
-                return RedirectToAction("ListQuestionsByCategory", "Home", new { categoryId = model.CategoryId });
+                return RedirectToAction("ViewAnswers", "Question", new { id = question.Id });
             }
 
             return View(model);
@@ -121,7 +121,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 db.Entry(question).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("ListQuestionsByCategory", "Home", new { categoryId = model.CategoryId });
+                return RedirectToAction("ViewAnswers", "Question", new { id = question.Id });
             }
 
             return View(model);
