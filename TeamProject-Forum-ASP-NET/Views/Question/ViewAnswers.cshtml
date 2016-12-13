@@ -23,9 +23,13 @@
                     </small>
                     <small>--posted on @Model.DateAdded</small>
                     <span class="pull-right">
+                    @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
+                    {
                         <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
                         <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
-                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new { @id = Model.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                    }
+                      
+                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new {@id = Model.Id}, new {@class = "btn btn-default btn-xs"})</span>
                     </span>
                 </footer>
             </article>

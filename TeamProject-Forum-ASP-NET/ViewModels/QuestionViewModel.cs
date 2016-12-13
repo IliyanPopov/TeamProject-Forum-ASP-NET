@@ -29,5 +29,10 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public ICollection<Answer> Answers { get; set; }
 
         public DateTime DateAdded { get; set; }
+
+        public bool IsAuthor(string name)
+        {
+            return this.Author.UserName.Equals(name);
+        }
     }
 }

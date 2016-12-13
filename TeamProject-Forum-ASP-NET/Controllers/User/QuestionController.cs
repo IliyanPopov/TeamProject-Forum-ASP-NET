@@ -190,6 +190,13 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             return RedirectToAction("List");
         }
 
+        private bool IsUserAutorizedToEdit(QuestionViewModel questionViewModel)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isAuthor = questionViewModel.IsAuthor(this.User.Identity.Name);
+
+            return isAdmin || isAuthor;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

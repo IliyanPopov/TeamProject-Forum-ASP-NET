@@ -24,5 +24,10 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public virtual ApplicationUser Author { get; set; }
 
         public DateTime DateAdded { get; set; }
+
+        public bool IsAuthor(string name)
+        {
+            return this.Author.UserName.Equals(name);
+        }
     }
 }

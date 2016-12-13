@@ -136,6 +136,14 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             return RedirectToAction("ViewAnswers", "Question", new { id = model.QuestionId });
         }
 
+        private bool IsUserAutorizedToEdit(AnswerViewModel answerViewModel)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isAuthor = answerViewModel.IsAuthor(this.User.Identity.Name);
+
+            return isAdmin || isAuthor;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
