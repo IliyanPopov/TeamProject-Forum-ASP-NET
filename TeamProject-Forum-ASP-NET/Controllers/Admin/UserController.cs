@@ -17,6 +17,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             return View();
         }
 
+        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
