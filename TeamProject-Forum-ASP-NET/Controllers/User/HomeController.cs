@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject_Forum_ASP_NET.Entities;
+using TeamProject_Forum_ASP_NET.ViewModels;
 
 namespace TeamProject_Forum_ASP_NET.Controllers
 {
@@ -33,9 +34,23 @@ namespace TeamProject_Forum_ASP_NET.Controllers
         {
             using (var db = new ForumDBContext())
             {
-                var users = db.Users.OrderBy(u => u.PostsCount).ToList();
+                var modelList = new List<RankUserViewModel>();
+                var users = db.Users.OrderByDescending(u => u.PostsCount).ToList();
 
-                return View(users);
+                foreach (var user in users)
+                {
+                    var model = new RankUserViewModel
+                    {
+                        Username = user.UserName,
+                        Email = user.Email,
+                        FullName = user.FullName,
+                        PostsCount = user.PostsCount,
+                    };
+
+                    modelList.Add(model);
+                }
+
+                return View(modelList);
             }
         }
     }

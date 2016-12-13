@@ -1,7 +1,27 @@
-﻿@model TeamProject_Forum_ASP_NET.ViewModels.RankUserViewModel
+﻿@model List<TeamProject_Forum_ASP_NET.ViewModels.RankUserViewModel>
 
 @{
     ViewBag.Title = "RankList";
 }
 
-
+<div class="container">
+    <div class="row">
+        @foreach (var user in Model)
+        {
+        <div class="col-sm-offset-2 col-sm-8">
+            <div>
+                <header>
+                    <h3>
+                        @user.Username
+                    </h3>
+                </header>
+                <div>
+                    <div>Full Name: @user.FullName</div>
+                    <div>Email: @user.Email</div>
+                    <div>Posts Count: @user.PostsCount</div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

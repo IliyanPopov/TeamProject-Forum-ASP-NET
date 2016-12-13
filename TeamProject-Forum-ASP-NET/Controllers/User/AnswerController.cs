@@ -42,11 +42,14 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         {
             if (ModelState.IsValid)
             {
-                var authorId = db.Users
-                   .First(u => u.UserName == this.User.Identity.Name).Id;
+                var author = db.Users
+                   .First(u => u.UserName == this.User.Identity.Name);
+                var authorId = author.Id;
 
                 var answer = new Answer(authorId, model.Content, model.QuestionId);
+                author.PostsCount++;
 
+                db.Entry(author).State = EntityState.Modified;
                 db.Answers.Add(answer);
                 db.SaveChanges();
 
