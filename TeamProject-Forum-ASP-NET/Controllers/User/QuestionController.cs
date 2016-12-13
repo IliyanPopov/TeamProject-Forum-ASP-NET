@@ -21,6 +21,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 .Include(a => a.Author)
                 .ToList();
 
+
             return View(questions);
         }
 
