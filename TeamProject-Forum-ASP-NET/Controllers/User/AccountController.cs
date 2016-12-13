@@ -153,6 +153,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                var addRoleResult = UserManager.AddToRole(user.Id, "User");
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
