@@ -23,18 +23,19 @@
                     </small>
                     <small>--posted on @Model.DateAdded</small>
                     <span class="pull-right">
-                    @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
-                    {
-                        <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
-                        <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
-                    }
-                      
-                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new {@id = Model.Id}, new {@class = "btn btn-default btn-xs"})</span>
+                        @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, Model.Author.UserName))
+                        {
+                            <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                            <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                        }
+
+                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new { @id = Model.Id }, new { @class = "btn btn-default btn-xs" })</span>
                     </span>
                 </footer>
             </article>
         </div>
     </div>
+
     <div class="row">
         @foreach (var answer in Model.Answers)
         {
@@ -49,13 +50,16 @@
                         </small>
                         <small>--posted on @answer.DateAdded</small>
                         <span class="pull-right">
-                            <span>@Html.ActionLink("Edit", "Edit", "Answer", new { @id = answer.Id }, new { @class = "btn btn-success btn-xs" })</span>
-                            <span>@Html.ActionLink("Delete", "Delete", "Answer", new { @id = answer.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                            @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, answer.Author.UserName))
+                            {
+                                <span>@Html.ActionLink("Edit", "Edit", "Answer", new { @id = answer.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                                <span>@Html.ActionLink("Delete", "Delete", "Answer", new { @id = answer.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                            }
                         </span>
                     </footer>
                 </article>
             </div>
         }
-
     </div>
+
 </div>

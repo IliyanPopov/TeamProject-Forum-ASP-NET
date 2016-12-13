@@ -30,7 +30,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return HttpNotFound();
             }
 
-            var answers = db.Answers.Where(q => q.QuestionId == id).ToList();
+            var answers = db.Answers.Where(q => q.QuestionId == id).Include(a => a.Author).ToList();
             question.ViewCount++;
 
             db.Entry(question).State = EntityState.Modified;
@@ -138,7 +138,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             var question = db.Questions
                 .Where(q => q.Id == id)
                 .Include(q => q.Author)
-                .Include(q=>q.Category)
+                .Include(q => q.Category)
                 .FirstOrDefault();
 
             if (question == null)
@@ -189,7 +189,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         private bool IsUserAutorizedToEdit(QuestionViewModel questionViewModel)
         {
             bool isAdmin = this.User.IsInRole("Admin");
-            bool isAuthor = questionViewModel.IsAuthor(this.User.Identity.Name);
+            bool isAuthor = questionViewModel.IsAuthor(this.User.Identity.Name, questionViewModel.Author.UserName);
 
             return isAdmin || isAuthor;
         }
