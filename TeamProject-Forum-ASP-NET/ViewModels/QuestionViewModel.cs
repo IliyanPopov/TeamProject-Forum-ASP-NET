@@ -19,7 +19,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public string Content { get; set; }
 
         public int ViewCount { get; set; }
-        
+
         public string AuthorId { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
@@ -27,6 +27,12 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public virtual Answer Answer { get; set; }
 
         public ICollection<Answer> Answers { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public virtual Category Category { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
 
         public DateTime DateAdded { get; set; }
 

@@ -95,10 +95,12 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
         public ActionResult DeleteProcess(int? id)
         {
             var category = db.Categories
+                .Include(c=>c.Questions)
                 .FirstOrDefault(c => c.Id == id);
 
             //to delete the articles that contain
-            //var categoryQuestions = category.
+           // var categoryQuestions = category.Questions.Include(c=>c.).ToList();
+            //var categoryQuestionsAnswers = category.Questions.ans
 
             db.Categories.Remove(category);
             db.SaveChanges();

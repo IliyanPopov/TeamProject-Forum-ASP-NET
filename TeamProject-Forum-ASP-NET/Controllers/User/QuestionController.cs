@@ -15,17 +15,6 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         private ForumDBContext db = new ForumDBContext();
 
         [HttpGet]
-        public ActionResult List()
-        {
-            var questions = db.Questions
-                .Include(a => a.Author)
-                .ToList();
-
-
-            return View(questions);
-        }
-
-        [HttpGet]
         public ActionResult ViewAnswers(int? id)
         {
             if (id == null)
@@ -34,7 +23,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             var model = new QuestionViewModel();
-            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);            
+            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);
 
             if (question == null)
             {
@@ -63,6 +52,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         public ActionResult Create()
         {
             var model = new QuestionViewModel();
+            model.Categories = db.Categories.OrderBy(c => c.Name).ToList();
 
             return View(model);
         }
@@ -77,14 +67,14 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                     .First(u => u.UserName == this.User.Identity.Name);
                 var authorId = author.Id;
 
-                var question = new Question(authorId, model.Title, model.Content);
+                var question = new Question(authorId, model.Title, model.Content, model.CategoryId);
                 author.PostsCount++;
 
                 db.Entry(author).State = EntityState.Modified;
                 db.Questions.Add(question);
                 db.SaveChanges();
 
-                return RedirectToAction("List");
+                return RedirectToAction("ListQuestionsByCategory", "Home", new { categoryId = model.CategoryId });
             }
 
             return View(model);
@@ -110,6 +100,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             model.Id = question.Id;
             model.Title = question.Title;
             model.Content = question.Content;
+            model.CategoryId = question.CategoryId;
+            model.Categories = db.Categories.OrderBy(c => c.Name).ToList();
 
             return View(model);
         }
@@ -124,11 +116,12 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
 
                 question.Title = model.Title;
                 question.Content = model.Content;
+                question.CategoryId = model.CategoryId;
 
                 db.Entry(question).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("ViewAnswers", model);
+                return RedirectToAction("ListQuestionsByCategory", "Home", new { categoryId = model.CategoryId });
             }
 
             return View(model);
@@ -145,6 +138,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             var question = db.Questions
                 .Where(q => q.Id == id)
                 .Include(q => q.Author)
+                .Include(q=>q.Category)
                 .FirstOrDefault();
 
             if (question == null)
@@ -156,6 +150,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             model.Id = question.Id;
             model.Title = question.Title;
             model.Content = question.Content;
+            model.CategoryId = question.CategoryId;
+            model.Category = question.Category;
 
             return View(model);
         }
@@ -187,7 +183,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             db.Questions.Remove(question);
             db.SaveChanges();
 
-            return RedirectToAction("List");
+            return RedirectToAction("ListQuestionsByCategory", "Home", new { categoryId = question.CategoryId });
         }
 
         private bool IsUserAutorizedToEdit(QuestionViewModel questionViewModel)
