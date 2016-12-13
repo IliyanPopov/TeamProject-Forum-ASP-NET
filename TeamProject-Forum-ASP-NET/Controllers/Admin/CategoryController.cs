@@ -97,10 +97,20 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             var category = db.Categories
                 .Include(c=>c.Questions)
                 .FirstOrDefault(c => c.Id == id);
+            
+            var categoryQuestions = category.Questions.ToList();
 
-            //to delete the articles that contain
-           // var categoryQuestions = category.Questions.Include(c=>c.).ToList();
-            //var categoryQuestionsAnswers = category.Questions.ans
+            foreach (var question in categoryQuestions)
+            {
+                var answers = question.Answers.ToList();
+
+                foreach (var answer in answers)
+                {
+                    db.Answers.Remove(answer);
+                }
+
+                db.Questions.Remove(question);
+            }
 
             db.Categories.Remove(category);
             db.SaveChanges();
