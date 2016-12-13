@@ -217,15 +217,18 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             foreach (var question in userQuestions)
             {
                 question.AuthorId = admin.Id;
+                admin.PostsCount++;
             }
 
             foreach (var answer in userAnswers)
             {
                 answer.AuthorId = admin.Id;
+                admin.PostsCount++;
             }
 
             //delete user and save changes
-            db.Users.Remove(user);
+            db.Entry(admin).State = EntityState.Modified;
+            db.Users.Remove(user);         
             db.SaveChanges();
 
             return RedirectToAction("List");
