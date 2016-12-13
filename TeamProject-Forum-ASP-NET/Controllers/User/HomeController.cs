@@ -34,6 +34,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 var questions = db.Questions
                     .Where(q => q.CategoryId == categoryId)
                     .Include(q => q.Answers)
+                    .Include(q => q.Tags)
                     .Include(q => q.Author)
                     .ToList();
 

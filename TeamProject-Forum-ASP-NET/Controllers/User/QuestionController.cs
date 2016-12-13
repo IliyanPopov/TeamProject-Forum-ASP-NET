@@ -70,6 +70,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 var question = new Question(authorId, model.Title, model.Content, model.CategoryId);
                 author.PostsCount++;
 
+                this.SetQuestionTags(question, model, db);
+
                 db.Entry(author).State = EntityState.Modified;
                 db.Questions.Add(question);
                 db.SaveChanges();
@@ -87,21 +89,29 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            var question = db.Questions.FirstOrDefault(q => q.Id == id);
-
+                        
+            var question = db.Questions.Include(a=>a.Author).FirstOrDefault(q => q.Id == id);
+            
             if (question == null)
             {
                 return HttpNotFound();
             }
 
             var model = new QuestionViewModel();
+            model.Author = question.Author;
+
+            if (!IsUserAutorizedToEdit(model))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
             model.Id = question.Id;
             model.Title = question.Title;
             model.Content = question.Content;
             model.CategoryId = question.CategoryId;
             model.Categories = db.Categories.OrderBy(c => c.Name).ToList();
+
+            model.Tags = string.Join(", ", question.Tags.Select(t => t.Name));
 
             return View(model);
         }
@@ -117,6 +127,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 question.Title = model.Title;
                 question.Content = model.Content;
                 question.CategoryId = model.CategoryId;
+                this.SetQuestionTags(question, model, db);
 
                 db.Entry(question).State = EntityState.Modified;
                 db.SaveChanges();
@@ -125,7 +136,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             return View(model);
-        }
+        }        
 
         [HttpGet]
         public ActionResult Delete(int? id)
@@ -146,7 +157,16 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return HttpNotFound();
             }
 
+            ViewBag.TagsString = string.Join(", ", question.Tags.Select(t => t.Name));
+
             var model = new QuestionViewModel();
+            model.Author = question.Author;
+                        
+            if (!IsUserAutorizedToEdit(model))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             model.Id = question.Id;
             model.Title = question.Title;
             model.Content = question.Content;
@@ -193,6 +213,26 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
 
             return isAdmin || isAuthor;
         }
+
+        private void SetQuestionTags(Question question, QuestionViewModel model, ForumDBContext db)
+        {
+            var tagsString = model.Tags.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.ToLower()).Distinct();
+            question.Tags.Clear();
+
+            foreach (var tagString in tagsString)
+            {
+                Tag tag = db.Tags.FirstOrDefault(t => t.Name.Equals(tagString));
+
+                if (tag == null)
+                {
+                    tag = new Tag() { Name = tagString };
+                    db.Tags.Add(tag);
+                }
+
+                question.Tags.Add(tag);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -67,12 +67,18 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var model = new AnswerViewModel();
             var answer = db.Answers.FirstOrDefault(q => q.Id == id);
 
             if (answer == null)
             {
                 return HttpNotFound();
+            }
+
+            var model = new AnswerViewModel();
+            model.Author = answer.Author;
+            if (!IsUserAutorizedToEdit(model))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
             model.Id = answer.Id;
@@ -107,13 +113,19 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            var model = new AnswerViewModel();
+                        
             var answer = db.Answers.FirstOrDefault(q => q.Id == id);
 
             if (answer == null)
             {
                 return HttpNotFound();
+            }
+
+            var model = new AnswerViewModel();
+            model.Author = answer.Author;
+            if (!IsUserAutorizedToEdit(model))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
             model.Id = answer.Id;
