@@ -20,11 +20,12 @@ namespace TeamProject_Forum_ASP_NET.Entities
             // this.tags = new HashSet<Tag>();
         }
 
-        public Question(string authorId, string title, string content)
+        public Question(string authorId, string title, string content, int categoryId)
         {
             this.AuthorId = authorId;
             this.Title = title;
             this.Content = content;
+            this.CategoryId = categoryId;
             this.DateAdded = DateTime.Now;
             this.answers = new HashSet<Answer>();
             // this.tags = new HashSet<Tag>();
@@ -54,10 +55,10 @@ namespace TeamProject_Forum_ASP_NET.Entities
             set { this.answers = value; }
         }
 
-        //[ForeignKey("Category")]
-        //public int CategoryId { get; set; }
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }
 
-        //public virtual Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         //public virtual ICollection<Tag> Tags
         //{

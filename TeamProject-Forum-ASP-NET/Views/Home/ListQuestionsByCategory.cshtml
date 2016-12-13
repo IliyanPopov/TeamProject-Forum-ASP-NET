@@ -1,7 +1,7 @@
 ﻿@model List<TeamProject_Forum_ASP_NET.Entities.Question>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "ListQuestionsByCategory";
 }
 
 <div class="container">
@@ -14,14 +14,14 @@
                         <h2>
                             @Html.ActionLink(@question.Title, "ViewAnswers", "Question", new { @id = question.Id }, null)
                         </h2>
-                    </header>                    
+                    </header>
                     <footer>
                         <small>
                             --author @question.Author.UserName
                         </small>
-                        <small>--posted on @question.DateAdded</small>  
+                        <small>--posted on @question.DateAdded</small>
                         <small>-- @question.ViewCount Views</small>
-                        <small>-- @question.Answers.Count Answers</small>                     
+                        <small>-- @question.Answers.Count Answers</small>
                     </footer>
                 </article>
             </div>

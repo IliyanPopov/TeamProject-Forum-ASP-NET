@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +13,32 @@ namespace TeamProject_Forum_ASP_NET.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("List", "Question");
+            return RedirectToAction("ListCategories");
+        }
+
+        public ActionResult ListCategories()
+        {
+            using (var db = new ForumDBContext())
+            {
+                var categories = db.Categories.Include(c => c.Questions).OrderBy(c => c.Name).ToList();
+
+                return View(categories);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ListQuestionsByCategory(int? categoryId)
+        {
+            using (var db = new ForumDBContext())
+            {
+                var questions = db.Questions
+                    .Where(q => q.CategoryId == categoryId)
+                    .Include(q => q.Answers)
+                    .Include(q => q.Author)
+                    .ToList();
+
+                return View(questions);
+            }
         }
 
         public ActionResult About()
