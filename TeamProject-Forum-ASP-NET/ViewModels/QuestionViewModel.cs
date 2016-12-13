@@ -35,5 +35,10 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public ICollection<Category> Categories { get; set; }
 
         public DateTime DateAdded { get; set; }
+
+        public bool IsAuthor(string name)
+        {
+            return this.Author.UserName.Equals(name);
+        }
     }
 }

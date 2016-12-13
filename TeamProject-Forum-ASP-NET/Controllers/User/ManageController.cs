@@ -64,6 +64,10 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            // this i added
+            var user = await UserManager.FindByIdAsync(userId);
+            ViewBag.User = user;
+            //
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -263,6 +267,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 if (result.Succeeded)
                 {
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    
                     if (user != null)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

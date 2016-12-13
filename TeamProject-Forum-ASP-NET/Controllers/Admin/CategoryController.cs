@@ -9,6 +9,7 @@ using TeamProject_Forum_ASP_NET.Entities;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private ForumDBContext db = new ForumDBContext();
