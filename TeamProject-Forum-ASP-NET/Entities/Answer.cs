@@ -40,5 +40,10 @@ namespace TeamProject_Forum_ASP_NET.Entities
         public int QuestionId { get; set; }
 
         public virtual Question Question { get; set; }
+
+        public bool IsAuthor(string name)
+        {
+            return this.Author.UserName.Equals(name);
+        }
     }
 }
