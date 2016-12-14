@@ -38,7 +38,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             var answers = db.Answers
                 .Where(q => q.QuestionId == id)
                 .Include(a => a.Author)
-                .OrderByDescending(a => a.DateAdded)
+                .OrderBy(a => a.DateAdded)
                 .ToList()
                 .ToPagedList(page ?? 1, 3);
 
