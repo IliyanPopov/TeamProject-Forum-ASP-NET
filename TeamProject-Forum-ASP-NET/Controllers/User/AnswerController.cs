@@ -139,9 +139,11 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         [ActionName("Delete")]
         public ActionResult DeletePost(AnswerViewModel model)
         {
-
             var answer = db.Answers.FirstOrDefault(a => a.Id == model.Id);
+            var author = answer.Author;
 
+            author.PostsCount--;
+            db.Entry(author).State = EntityState.Modified;
             db.Answers.Remove(answer);
             db.SaveChanges();
 

@@ -193,13 +193,17 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return HttpNotFound();
             }
 
-            var answers = question.Answers.ToList();
+            var questionAuthor = question.Author;
+            var answers = question.Answers.ToList();            
 
             foreach (var answer in answers)
             {
+                answer.Author.PostsCount--;
                 db.Answers.Remove(answer);
             }
 
+            questionAuthor.PostsCount--;
+            db.Entry(questionAuthor).State = EntityState.Modified;
             db.Questions.Remove(question);
             db.SaveChanges();
 
