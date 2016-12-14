@@ -1,6 +1,7 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
 
+@using Microsoft.AspNet.Identity
 @model TeamProject_Forum_ASP_NET.ViewModels.QuestionViewModel
 
 @{
@@ -21,6 +22,13 @@
                     @Model.Content
                 </p>
                 <footer>
+                    <small>
+                        @{
+                            var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + Model.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                        }
+                        <img src="@postImgUrl" height="50" width="50" alt="Profile Photo" />
+                    </small>
+
                     <small>
                         --author @Model.Author.UserName
                     </small>
@@ -51,6 +59,12 @@
                         @answer.Content
                     </p>
                     <footer>
+                        <small>
+                            @{
+                                var answerImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                                <img src="@answerImgUrl" height="50" width="50" alt="Profile Photo" />
+                            }
+                        </small>
                         <small>
                             --author @answer.Author.UserName
                         </small>
