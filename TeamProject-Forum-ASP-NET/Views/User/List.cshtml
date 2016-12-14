@@ -10,13 +10,14 @@
 
         <table class="table table-striped table-hover">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>User Name</th>
-                    <th>Posts Count</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>Profile Photo</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>User Name</th>
+                <th>Posts Count</th>
+                <th>Actions</th>
+            </tr>
             </thead>
 
             <tbody>
@@ -31,6 +32,9 @@
                         @: <tr>
                     }
 
+                    var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+
+                    <td><img src="@imgUrl" height="50" width="50" alt="Profile Picture" /></td>                   
                     <td>@user.Id</td>
                     <td>@user.Email</td>
                     <td>@user.UserName</td>

@@ -226,9 +226,16 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
                 admin.PostsCount++;
             }
 
+            //delete the profile photo
+            string fullPath = Request.MapPath("~/Images/ProfilePhotos/" + user.UserName + ".png");
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+
             //delete user and save changes
             db.Entry(admin).State = EntityState.Modified;
-            db.Users.Remove(user);         
+            db.Users.Remove(user);
             db.SaveChanges();
 
             return RedirectToAction("List");

@@ -1,4 +1,5 @@
-﻿@model List<TeamProject_Forum_ASP_NET.Entities.Question>
+﻿@using Microsoft.AspNet.Identity
+@model List<TeamProject_Forum_ASP_NET.Entities.Question>
 
 @{
     ViewBag.Title = "ListQuestionsByCategory";
@@ -17,8 +18,14 @@
                     </header>
                     <footer>
                         <small>
-                            --author @question.Author.UserName
+                            @{
+                                var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" +question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                            }
+                            <img src="@imgUrl" height="50" width="50" alt="Profile Picture"/>
                         </small>
+                        <small>
+                            --author @question.Author.UserName
+                        </small>      
                         <small>--posted on @question.DateAdded</small>
                         <small>-- @question.ViewCount Views</small>
                         <small>-- @question.Answers.Count Answers</small>

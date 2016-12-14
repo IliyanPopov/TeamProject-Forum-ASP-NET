@@ -1,4 +1,5 @@
-﻿@model TeamProject_Forum_ASP_NET.Models.IndexViewModel
+﻿@using Microsoft.AspNet.Identity
+@model TeamProject_Forum_ASP_NET.Models.IndexViewModel
 @{
     ViewBag.Title = "Manage";
 }
@@ -60,32 +61,26 @@
                 }
             </dd>
         *@
-        <dt>Two-Factor Authentication:</dt>
+        <dt>Profile Picture:</dt>
         <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
+          @if (User.Identity.GetUserName() != null)
+            {
+                var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+            <div class="upimage">
+                <div class="accimg">
+                    <img src="@imgUrl" height="250" width="250" />
+                </div>
+                <div class="mngimg">
+                    @using (Html.BeginForm("UploadPhoto", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
+                        <div class="btn btn-default browseimg">
+                            <input type="file" name="file" id="files" onchange="this.form.submit()" />
+                        </div>
                     }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
+                </div>
+            </div>
+          }
+         
         </dd>
     </dl>
 </div>
