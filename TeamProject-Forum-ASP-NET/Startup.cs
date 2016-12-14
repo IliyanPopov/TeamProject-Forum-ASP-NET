@@ -12,8 +12,10 @@ namespace TeamProject_Forum_ASP_NET
     {
         public void Configuration(IAppBuilder app)
         {
-           Database.SetInitializer(
-               new MigrateDatabaseToLatestVersion<ForumDBContext, Configuration>());
+            app.MapSignalR();
+
+            Database.SetInitializer(
+                new MigrateDatabaseToLatestVersion<ForumDBContext, Configuration>());
 
             ConfigureAuth(app);
         }

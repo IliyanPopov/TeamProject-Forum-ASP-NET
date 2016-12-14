@@ -29,5 +29,6 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         {
             return this.Author.UserName.Equals(name);
         }
+        
     }
 }
