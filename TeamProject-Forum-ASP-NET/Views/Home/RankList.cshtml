@@ -1,4 +1,7 @@
-﻿@model List<TeamProject_Forum_ASP_NET.ViewModels.RankUserViewModel>
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<TeamProject_Forum_ASP_NET.ViewModels.RankUserViewModel>
 
 @{
     ViewBag.Title = "RankList";
@@ -23,5 +26,9 @@
             </div>
         </div>
         }
+    </div>
+    <div class="row col-sm-offset-2">
+        @Html.PagedListPager(Model, page => Url.Action("RankList", new { page }),
+               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
     </div>
 </div>

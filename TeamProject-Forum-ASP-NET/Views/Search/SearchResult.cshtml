@@ -1,4 +1,7 @@
-﻿@model List<TeamProject_Forum_ASP_NET.Entities.Question>
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<TeamProject_Forum_ASP_NET.Entities.Question>
 
 @{
     ViewBag.Title = "SearchResult";
@@ -12,7 +15,7 @@
         {
             <h2>No Results Were Found</h2>
 
-            @Html.ActionLink("Back", "Search", "Search", null, new { @class="btn btn-success"})
+            @Html.ActionLink("Back", "Search", "Search", null, new { @class = "btn btn-success" })
         }
         else
         {
@@ -41,7 +44,11 @@
                         </footer>
                     </article>
                 </div>
-            }   }
-
+            }
+        }
+    </div>
+    <div class="row col-sm-offset-2">
+        @Html.PagedListPager(Model, page => Url.Action("SearchResults", new { page }),
+               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
     </div>
 </div>

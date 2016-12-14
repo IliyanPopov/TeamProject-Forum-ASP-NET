@@ -64,12 +64,15 @@ namespace TeamProject_Forum_ASP_NET.Controllers
         }
 
         [HttpGet]
-        public ActionResult RankList()
+        public ActionResult RankList(int? page)
         {
             using (var db = new ForumDBContext())
             {
                 var modelList = new List<RankUserViewModel>();
-                var users = db.Users.OrderByDescending(u => u.PostsCount).ToList();
+                var users = db.Users
+                    .OrderByDescending(u => u.PostsCount)
+                    .ThenBy(u => u.UserName)
+                    .ToList();
 
                 foreach (var user in users)
                 {
@@ -84,7 +87,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     modelList.Add(model);
                 }
 
-                return View(modelList);
+                return View(modelList.ToPagedList(page ?? 1, 3));
             }
         }
     }

@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using TeamProject_Forum_ASP_NET.Entities;
 using TeamProject_Forum_ASP_NET.Models;
 using TeamProject_Forum_ASP_NET.ViewModels;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 {
@@ -25,7 +27,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             return RedirectToAction("List");
         }
 
-        public ActionResult List()
+        public ActionResult List(string searchString, int? page)
         {
             var users = db.Users
                 .ToList();
@@ -33,7 +35,15 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             var admins = GetAdminUserNames(users, db);
             ViewBag.Admins = admins;
 
-            return View(users);
+            if (searchString == null)
+            {
+                return View(users.ToPagedList(page ?? 1, 3));
+            }
+
+            searchString = searchString.ToLower();
+            users = users.Where(u => u.UserName.ToLower().Contains(searchString)).ToList();
+
+            return View(users.ToPagedList(page ?? 1, 3));
         }
 
         private HashSet<string> GetAdminUserNames(List<ApplicationUser> users, ForumDBContext context)
@@ -228,7 +238,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 
             //delete user and save changes
             db.Entry(admin).State = EntityState.Modified;
-            db.Users.Remove(user);         
+            db.Users.Remove(user);
             db.SaveChanges();
 
             return RedirectToAction("List");

@@ -29,12 +29,14 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 
         public IPagedList<Answer> Answers { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
 
         public ICollection<Category> Categories { get; set; }
 
+        [Required]
         public string Tags { get; set; }
 
         public DateTime DateAdded { get; set; }

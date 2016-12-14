@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using TeamProject_Forum_ASP_NET.Entities;
 using TeamProject_Forum_ASP_NET.ViewModels;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.User
 {
@@ -21,7 +23,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         }
 
         [HttpGet]
-        public ActionResult SearchResult(SearchViewModel model)
+        public ActionResult SearchResult(SearchViewModel model, int? page)
         {
 
             if (ModelState.IsValid)
@@ -44,7 +46,10 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                                 .Include(q => q.Author)
                                 .Include(q => q.Answers)
                                 .Include(q => q.Tags)
-                                .Where(q => q.Title.Contains(word) || q.Content.Contains(word) || q.Tags.Any(t => t.Name == word)));
+                                .Where(q => q.Title
+                                .ToLower().Contains(word) || 
+                                q.Content.ToLower().Contains(word) ||
+                                q.Tags.Any(t => t.Name.ToLower() == word)));
                         }
                     }
 
@@ -56,7 +61,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                                 .Include(q => q.Author)
                                 .Include(q => q.Answers)
                                 .Include(q => q.Tags)
-                                .Where(q => q.Title.Contains(word)));
+                                .Where(q => q.Title.ToLower().Contains(word)));
                         }
                     }
 
@@ -68,7 +73,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                                 .Include(q => q.Author)
                                 .Include(q => q.Answers)
                                 .Include(q => q.Tags)
-                                .Where(q => q.Content.Contains(word)));
+                                .Where(q => q.Content.ToLower().Contains(word)));
                         }
                     }
 
@@ -80,13 +85,13 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                                 .Include(q => q.Author)
                                 .Include(q => q.Answers)
                                 .Include(q => q.Tags)
-                                .Where(q => q.Tags.Any(t => t.Name == word)));
+                                .Where(q => q.Tags.Any(t => t.Name.ToLower() == word)));
                         }
                     }
 
                     questions = questions.Distinct().ToList();
 
-                    return View(questions);
+                    return View(questions.ToPagedList(page ?? 1, 3));
                 }
             }
 
