@@ -10,14 +10,14 @@ namespace TeamProject_Forum_ASP_NET.Entities
 {
     public class Question
     {
-        //private ICollection<Tag> tags;
+        private ICollection<Tag> tags;
         private ICollection<Answer> answers;
 
         public Question()
         {
             this.DateAdded = DateTime.Now;
             this.answers = new HashSet<Answer>();
-            // this.tags = new HashSet<Tag>();
+            this.tags = new HashSet<Tag>();
         }
 
         public Question(string authorId, string title, string content, int categoryId)
@@ -28,7 +28,7 @@ namespace TeamProject_Forum_ASP_NET.Entities
             this.CategoryId = categoryId;
             this.DateAdded = DateTime.Now;
             this.answers = new HashSet<Answer>();
-            // this.tags = new HashSet<Tag>();
+            this.tags = new HashSet<Tag>();
         }
 
         [Key]
@@ -60,11 +60,10 @@ namespace TeamProject_Forum_ASP_NET.Entities
 
         public virtual Category Category { get; set; }
 
-        //public virtual ICollection<Tag> Tags
-        //{
-        //    get { return this.tags; }
-        //    set { this.tags = value; }
-        //}
-  
+        public virtual ICollection<Tag> Tags
+        {
+            get { return this.tags; }
+            set { this.tags = value; }
+        }
     }
 }

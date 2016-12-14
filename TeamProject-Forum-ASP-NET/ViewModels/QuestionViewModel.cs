@@ -34,11 +34,13 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 
         public ICollection<Category> Categories { get; set; }
 
+        public string Tags { get; set; }
+
         public DateTime DateAdded { get; set; }
 
-        public bool IsAuthor(string name)
+        public bool IsAuthor(string authorName, string postAuthor)
         {
-            return this.Author.UserName.Equals(name);
+            return authorName.Equals(postAuthor);
         }
     }
 }

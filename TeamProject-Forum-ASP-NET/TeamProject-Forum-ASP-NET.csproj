@@ -182,6 +182,8 @@
     <Compile Include="Controllers\User\HomeController.cs" />
     <Compile Include="Controllers\User\ManageController.cs" />
     <Compile Include="Controllers\User\QuestionController.cs" />
+    <Compile Include="Controllers\User\SearchController.cs" />
+    <Compile Include="Controllers\User\TagController.cs" />
     <Compile Include="Entities\Answer.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\ForumDBContext.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\RankUserViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -278,6 +281,9 @@
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\Home\ListQuestionsByCategory.cshtml" />
     <Content Include="Views\Home\ListCategories.cshtml" />
+    <Content Include="Views\Tag\ListQuestionsByTag.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
+    <Content Include="Views\Search\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

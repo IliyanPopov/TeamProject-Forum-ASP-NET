@@ -106,9 +106,11 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 
                 foreach (var answer in answers)
                 {
+                    answer.Author.PostsCount--;
                     db.Answers.Remove(answer);
                 }
 
+                question.Author.PostsCount--;
                 db.Questions.Remove(question);
             }
 

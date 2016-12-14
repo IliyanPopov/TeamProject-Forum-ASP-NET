@@ -1,0 +1,42 @@
+﻿@model TeamProject_Forum_ASP_NET.ViewModels.SearchViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<div class="container">
+    <div class="well">
+        <h2>Search</h2>
+        @using (Html.BeginForm("SearchResult", "Search", FormMethod.Get, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Query, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Query, new { @class = "form-control col-sm-4" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+                    @Html.CheckBoxFor(m => m.Title)
+                    @Html.LabelFor(m => m.Title)
+                    @Html.CheckBoxFor(m => m.Content)
+                    @Html.LabelFor(m => m.Content)
+                    @Html.CheckBoxFor(m => m.Tag)
+                    @Html.LabelFor(m => m.Tag)
+                </div>
+            </div>
+                        
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+                    @Html.ActionLink("Cancel", "ListCategories", "Home", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Search" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

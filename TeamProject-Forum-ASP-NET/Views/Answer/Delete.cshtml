@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="well">
-        <h2>Delete Article</h2>
+        <h2>Delete Answer</h2>
         @using (Html.BeginForm("Delete", "Answer", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "ViewAnswers", "Question", new { @id = Model.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Cancel", "ViewAnswers", "Question", new { @id = Model.QuestionId }, new { @class = "btn btn-default" })
                     <input type="submit" value="Delete" class="btn btn-danger" />
                 </div>
             </div>

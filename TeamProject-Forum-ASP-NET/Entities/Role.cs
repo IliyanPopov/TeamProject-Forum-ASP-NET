@@ -10,6 +10,5 @@ namespace TeamProject_Forum_ASP_NET.Entities
         public string Name { get; set; }
 
         public bool IsSelected { get; set; }
-
     }
 }
