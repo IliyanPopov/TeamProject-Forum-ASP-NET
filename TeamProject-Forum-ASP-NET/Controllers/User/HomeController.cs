@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PagedList;
+using PagedList.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -16,18 +18,22 @@ namespace TeamProject_Forum_ASP_NET.Controllers
             return RedirectToAction("ListCategories");
         }
 
-        public ActionResult ListCategories()
+        public ActionResult ListCategories(int? page)
         {
             using (var db = new ForumDBContext())
             {
-                var categories = db.Categories.Include(c => c.Questions).OrderBy(c => c.Name).ToList();
+                var categories = db.Categories
+                    .Include(c => c.Questions)
+                    .OrderBy(c => c.Name)
+                    .ToList()
+                    .ToPagedList(page ?? 1, 3);
 
                 return View(categories);
             }
         }
 
         [HttpGet]
-        public ActionResult ListQuestionsByCategory(int? categoryId)
+        public ActionResult ListQuestionsByCategory(int? categoryId, int? page)
         {
             using (var db = new ForumDBContext())
             {
@@ -36,7 +42,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .Include(q => q.Answers)
                     .Include(q => q.Tags)
                     .Include(q => q.Author)
-                    .ToList();
+                    .ToList()
+                    .ToPagedList(page ?? 1, 3);
 
                 return View(questions);
             }

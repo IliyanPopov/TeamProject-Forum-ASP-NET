@@ -1,4 +1,7 @@
-﻿@model List<TeamProject_Forum_ASP_NET.Entities.Question>
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<TeamProject_Forum_ASP_NET.Entities.Question>
 
 @{
     ViewBag.Title = "ListQuestionsByCategory";
@@ -32,5 +35,9 @@
                 </article>
             </div>
         }
+    </div>
+    <div class="row col-sm-offset-2">
+        @Html.PagedListPager(Model, page => Url.Action("ListQuestionsByCategory", new { page, categoryId = Request.QueryString["categoryId"] }),
+                    new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
     </div>
 </div>

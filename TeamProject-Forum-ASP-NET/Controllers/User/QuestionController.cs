@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PagedList;
+using PagedList.Mvc;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -15,7 +18,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
         private ForumDBContext db = new ForumDBContext();
 
         [HttpGet]
-        public ActionResult ViewAnswers(int? id)
+        public ActionResult ViewAnswers(int? id, int? page)
         {
             if (id == null)
             {
@@ -23,14 +26,21 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             var model = new QuestionViewModel();
-            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);
+            var question = db.Questions
+                .Include(a => a.Author)
+                .FirstOrDefault(q => q.Id == id);
 
             if (question == null)
             {
                 return HttpNotFound();
             }
 
-            var answers = db.Answers.Where(q => q.QuestionId == id).Include(a => a.Author).ToList();
+            var answers = db.Answers
+                .Where(q => q.QuestionId == id)
+                .Include(a => a.Author)
+                .ToList()
+                .ToPagedList(page ?? 1, 3);
+            
             question.ViewCount++;
 
             db.Entry(question).State = EntityState.Modified;
@@ -89,9 +99,9 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-                        
-            var question = db.Questions.Include(a=>a.Author).FirstOrDefault(q => q.Id == id);
-            
+
+            var question = db.Questions.Include(a => a.Author).FirstOrDefault(q => q.Id == id);
+
             if (question == null)
             {
                 return HttpNotFound();
@@ -136,7 +146,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             return View(model);
-        }        
+        }
 
         [HttpGet]
         public ActionResult Delete(int? id)
@@ -161,7 +171,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
 
             var model = new QuestionViewModel();
             model.Author = question.Author;
-                        
+
             if (!IsUserAutorizedToEdit(model))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -194,7 +204,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             }
 
             var questionAuthor = question.Author;
-            var answers = question.Answers.ToList();            
+            var answers = question.Answers.ToList();
 
             foreach (var answer in answers)
             {

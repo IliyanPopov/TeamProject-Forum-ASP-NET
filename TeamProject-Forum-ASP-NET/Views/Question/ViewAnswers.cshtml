@@ -1,4 +1,7 @@
-﻿@model TeamProject_Forum_ASP_NET.ViewModels.QuestionViewModel
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model TeamProject_Forum_ASP_NET.ViewModels.QuestionViewModel
 
 @{
     ViewBag.Title = "ViewAnswers";
@@ -35,7 +38,10 @@
             </article>
         </div>
     </div>
-
+    <div class="row col-sm-offset-2">
+        @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", new { page }),
+               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+    </div>
     <div class="row">
         @foreach (var answer in Model.Answers)
         {
@@ -61,5 +67,8 @@
             </div>
         }
     </div>
-
+    <div class="row col-sm-offset-2">
+        @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", new { page }),
+               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+    </div>
 </div>

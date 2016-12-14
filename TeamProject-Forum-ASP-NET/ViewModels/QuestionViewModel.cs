@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 
         public virtual Answer Answer { get; set; }
 
-        public ICollection<Answer> Answers { get; set; }
+        public IPagedList<Answer> Answers { get; set; }
 
         public int CategoryId { get; set; }
 
