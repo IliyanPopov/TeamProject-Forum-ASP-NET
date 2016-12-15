@@ -18,8 +18,6 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 
         public bool Content { get; set; }
 
-        public bool Tag { get; set; }
-
-        public List<Question> Questions { get; set; }
+        public bool Tag { get; set; }        
     }
 }

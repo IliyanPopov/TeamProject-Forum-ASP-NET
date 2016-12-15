@@ -12,7 +12,7 @@ using TeamProject_Forum_ASP_NET.ViewModels;
 
 namespace TeamProject_Forum_ASP_NET.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         public ActionResult Index(int? page)
@@ -30,13 +30,15 @@ namespace TeamProject_Forum_ASP_NET.Controllers
             }
         }
 
-        public ActionResult ListCategories()
+        public ActionResult ListCategories(int? categoryId)
         {
             using (var db = new ForumDBContext())
             {
                 var categories = db.Categories
                     .OrderBy(c => c.Name)
                     .ToList();
+
+                ViewBag.categoryId = categoryId;
 
                 return PartialView("ListCategories", categories);
             }
@@ -65,6 +67,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
+                ViewBag.categoryId = categoryId;
 
                 return View(questions);
             }

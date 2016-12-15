@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            @Html.Action("ListCategories", "Home")
+            @Html.Action("ListCategories", "Home",new { categoryId = ViewBag.categoryId })
         </div>
         <div class="col-md-8">
             @foreach (var question in Model)

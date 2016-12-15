@@ -7,13 +7,23 @@
     ViewBag.Title = "ListCategories";
 }
 
-@foreach (var category in Model)
-{
-    <ul class="nav nav-pills nav-stacked">
-        <li>
-            @Html.ActionLink(string.Format($"{category.Name}"), "ListQuestionsByCategory", "Home", new { categoryId = category.Id }, null)
-        </li>
-    </ul>
-}
+
+<ul class="nav nav-pills nav-stacked">
+    @foreach (var category in Model)
+    {
+        if (ViewBag.categoryId == category.Id)
+        {
+            @:<li class="active">
+        }
+
+        else
+        {
+            @:<li>
+        }
+
+        @Html.ActionLink(string.Format($"{category.Name}"), "ListQuestionsByCategory", "Home", new { categoryId = category.Id }, null)
+    }
+</ul>
+   
 
 
