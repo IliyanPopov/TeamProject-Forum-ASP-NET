@@ -12,6 +12,7 @@ using TeamProject_Forum_ASP_NET.ViewModels;
 
 namespace TeamProject_Forum_ASP_NET.Controllers
 {
+    
     public class HomeController : Controller
     {
         public ActionResult Index(int? page)

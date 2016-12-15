@@ -232,7 +232,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             }
 
             //delete the profile photo
-            string fullPath = Request.MapPath("~/Images/ProfilePhotos/" + user.UserName + ".png");
+            string fullPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + user.UserName + ".png");
             if (System.IO.File.Exists(fullPath))
             {
                 System.IO.File.Delete(fullPath);

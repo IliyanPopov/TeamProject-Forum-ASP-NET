@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using TeamProject_Forum_ASP_NET.Entities;
@@ -35,7 +36,7 @@ namespace TeamProject_Forum_ASP_NET
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -55,15 +56,20 @@ namespace TeamProject_Forum_ASP_NET
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
+            {
+                AppId = "995457590560700",
+                AppSecret = "64f0e0d7bd517f2fada2b00489e09d17"
+            };
+            facebookAuthenticationOptions.Scope.Add("email");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseFacebookAuthentication(facebookAuthenticationOptions);
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "101153379568-adi7no6qdom7h4c67gqo0811vo0jjbvj.apps.googleusercontent.com",
+                ClientSecret = "KXGUjtWAQZvVvgtlOHoO0GF4"
+            });
         }
     }
 }
