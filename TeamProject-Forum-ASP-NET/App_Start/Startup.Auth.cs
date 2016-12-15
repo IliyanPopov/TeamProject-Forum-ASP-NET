@@ -59,11 +59,11 @@ namespace TeamProject_Forum_ASP_NET
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "101153379568-adi7no6qdom7h4c67gqo0811vo0jjbvj.apps.googleusercontent.com",
+                ClientSecret = "KXGUjtWAQZvVvgtlOHoO0GF4"
+            });
         }
     }
 }

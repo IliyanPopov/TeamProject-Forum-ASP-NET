@@ -66,18 +66,17 @@
           @if (User.Identity.GetUserName() != null)
             {
                 var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
-            <div class="upimage">
-                <div class="accimg">
-                    <img src="@imgUrl" height="250" width="250" />
-                </div>
-                <div class="mngimg">
-                    @using (Html.BeginForm("UploadPhoto", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            <div class="upimage ">
+                <div class="accimg  col-sm-4">
+                    <img src="@imgUrl" height="240" width="240" />
+                          @using (Html.BeginForm("UploadPhoto", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                        <div class="btn btn-default browseimg">
+                        <div class="btn btn-default col-sm-10">
                             <input type="file" name="file" id="files" onchange="this.form.submit()" />
                         </div>
                     }
                 </div>
+              
             </div>
           }
          

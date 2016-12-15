@@ -21,8 +21,14 @@
             <li>
                 @{
                     var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                    string fullPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png");
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        <img src="@imgUrl" height="50" width="50" alt="Profile Photo" />
                     }
-                    <img src="@imgUrl" height="50" width="50" />
+
+                }
+                  
             </li>
             <li>
                 @Html.ActionLink("New Question", "Create", "Question")
