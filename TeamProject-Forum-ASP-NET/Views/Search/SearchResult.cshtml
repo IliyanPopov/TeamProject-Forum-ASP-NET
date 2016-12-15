@@ -7,48 +7,63 @@
     ViewBag.Title = "SearchResult";
 }
 
-<h2>Search Results</h2>
-
 <div class="container">
     <div class="row">
-        @if (Model.Count == 0)
-        {
-            <h2>No Results Were Found</h2>
+        <div class="col-md-2">
+            @Html.Action("ListCategories", "Home")
+        </div>
+        <div class="col-md-8">
 
-            @Html.ActionLink("Back", "Search", "Search", null, new { @class = "btn btn-success" })
-        }
-        else
-        {
-            foreach (var question in Model)
+            <div class="row">
+                @Html.Action("Search", "Search")
+            </div>
+
+            @if (Model.Count != 0)
             {
-                <div class="col-sm-offset-2 col-sm-8">
-                    <article>
-                        <header>
-                            <h2>
-                                @Html.ActionLink(@question.Title, "ViewAnswers", "Question", new { @id = question.Id }, null)
-                            </h2>
-                        </header>
-                        <footer>
-                            <small>
-                                --author @question.Author.UserName
-                            </small>
-                            <small>--posted on @question.DateAdded</small>
-                            <small>-- @question.ViewCount Views</small>
-                            <small>-- @question.Answers.Count Answers</small>
-                            <div>
-                                @foreach (var tag in question.Tags)
-                                {
-                                    <span>@Html.ActionLink(tag.Name, "ListQuestionsByTag", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })</span>
+
+                foreach (var question in Model)
+                {
+                    <div class="row">
+                        <div class="col-md-2">
+                            @{
+                                var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                            }
+                            <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                            <h4>@question.Author.UserName</h4>
+                            <div>Posts: @question.Author.PostsCount</div>
+                        </div>
+                        <div class="col-md-10">
+                            <article>
+                                <header>
+                                    <h2>
+                                        @Html.ActionLink(question.Title, "ViewAnswers", "Question", new { @id = question.Id }, null)
+                                    </h2>
+                                </header>
+                                <footer>
+                                    <small>--posted on @question.DateAdded</small>
+                                    <small>-- @question.ViewCount Views</small>
+                                    <small>-- @question.Answers.Count Answers</small>
+                                    <div>
+                                        @foreach (var tag in question.Tags)
+                                        {
+                                            <span>@Html.ActionLink(tag.Name, "ListQuestionsByTag", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                                        }
+                                    </div>
+                                </footer>
+                            </article>
+                        </div>
+                    </div>
                                 }
-                            </div>
-                        </footer>
-                    </article>
-                </div>
+                                @Html.PagedListPager(Model, page => Url.Action("SearchResult", "Search", new
+                                                                                                             {
+                                                                                                                 page,
+                                                                                                                 Query = Request.QueryString["Query"],
+                                                                                                                 Title = Request.QueryString["Title"],
+                                                                                                                 Content = Request.QueryString["Content"],
+                                                                                                                 Tag = Request.QueryString["Tag"]
+                                                                                                             }),
+                                            new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
             }
-        }
-    </div>
-    <div class="row col-sm-offset-2">
-        @Html.PagedListPager(Model, page => Url.Action("SearchResults", new { page }),
-               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+        </div>
     </div>
 </div>

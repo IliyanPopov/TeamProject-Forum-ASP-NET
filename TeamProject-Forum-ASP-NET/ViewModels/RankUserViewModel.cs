@@ -7,7 +7,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 {
     public class RankUserViewModel
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public string FullName { get; set; }
 

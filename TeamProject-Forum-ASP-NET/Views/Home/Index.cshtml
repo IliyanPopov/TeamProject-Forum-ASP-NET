@@ -1,4 +1,53 @@
-﻿@{
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<TeamProject_Forum_ASP_NET.Entities.Question>
+
+@{
     ViewBag.Title = "Home Page";
 }
-<h1>Index page</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Action("ListCategories", "Home")
+        </div>
+        <div class="col-md-8">
+            @foreach (var question in Model)
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        @{
+                            var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                        }
+                        <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                        <h4>@question.Author.UserName</h4>
+                        <div>Posts: @question.Author.PostsCount</div>
+                    </div>
+                    <div class="col-md-10">
+                        <article>
+                            <header>
+                                <h2>
+                                    @Html.ActionLink(question.Title, "ViewAnswers", "Question", new { @id = question.Id }, null)
+                                </h2>
+                            </header>
+                            <footer>
+                                <small>--posted on @question.DateAdded</small>
+                                <small>-- @question.ViewCount Views</small>
+                                <small>-- @question.Answers.Count Answers</small>
+                                <div>
+                                    @foreach (var tag in question.Tags)
+                                    {
+                                        <span>@Html.ActionLink(tag.Name, "ListQuestionsByTag", "Tag", new { id = tag.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                                    }
+                                </div>
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+                            }
+            @Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { page }),
+                    new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+        </div>
+    </div>
+</div>

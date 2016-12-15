@@ -6,19 +6,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject_Forum_ASP_NET.Entities;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.User
 {
     public class TagController : Controller
     {
         // GET: Tag
-        public ActionResult ListQuestionsByTag(int? id)
+        public ActionResult ListQuestionsByTag(int? id, int? page)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            
             using (var db = new ForumDBContext())
             {
                 var questions = db.Tags
@@ -27,9 +29,10 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                     .Include(t => t.Questions.Select(q => q.Answers))
                     .FirstOrDefault(t => t.Id == id)
                     .Questions
+                    .OrderBy(q => q.DateAdded)
                     .ToList();
 
-                return View(questions);
+                return View(questions.ToPagedList(page ?? 1, 3));
             }
         }
     }

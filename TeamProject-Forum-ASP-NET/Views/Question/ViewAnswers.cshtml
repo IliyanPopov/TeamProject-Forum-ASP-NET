@@ -11,78 +11,85 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-sm-offset-2 col-sm-8">
-            <article>
-                <header>
-                    <h2>
-                        @Html.ActionLink(Model.Title, "ViewAnswers", "Question", new { @id = Model.Id }, null)
-                    </h2>
-                </header>
-                <p>
-                    @Model.Content
-                </p>
-                <footer>
-                    <small>
-                        @{
-                            var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + Model.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                        }
-                        <img src="@postImgUrl" height="50" width="50" alt="Profile Photo" />
-                    </small>
-
-                    <small>
-                        --author @Model.Author.UserName
-                    </small>
-                    <small>--posted on @Model.DateAdded</small>
-                    <span class="pull-right">
-                        @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, Model.Author.UserName))
-                        {
-                            <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
-                            <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
-                        }
-
-                        <span>@Html.ActionLink("New Answer", "Create", "Answer", new { @id = Model.Id }, new { @class = "btn btn-default btn-xs" })</span>
-                    </span>
-                </footer>
-            </article>
+        <div class="col-md-2">
+            @Html.Action("ListCategories", "Home")
         </div>
-    </div>
-    <div class="row col-sm-offset-2">
-        @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", new { page }),
-               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
-    </div>
-    <div class="row">
-        @foreach (var answer in Model.Answers)
-        {
-            <div class="col-sm-offset-2 col-sm-8">
-                <article>
-                    <p>
-                        @answer.Content
-                    </p>
-                    <footer>
-                        <small>
-                            @{
-                                var answerImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                                <img src="@answerImgUrl" height="50" width="50" alt="Profile Photo" />
-                            }
-                        </small>
-                        <small>
-                            --author @answer.Author.UserName
-                        </small>
-                        <small>--posted on @answer.DateAdded</small>
-                        <span class="pull-right">
-                            @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, answer.Author.UserName))
-                            {
-                                <span>@Html.ActionLink("Edit", "Edit", "Answer", new { @id = answer.Id }, new { @class = "btn btn-success btn-xs" })</span>
-                                <span>@Html.ActionLink("Delete", "Delete", "Answer", new { @id = answer.Id }, new { @class = "btn btn-danger btn-xs" })</span>
-                            }
-                        </span>
-                    </footer>
-                </article>
+
+        <div class="col-md-8">
+
+            <div class="row">
+                <div class="col-md-2">
+                    @{
+                        var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + Model.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                    }
+                    <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                    <h4>@Model.Author.UserName</h4>
+                    <div>Posts: @Model.Author.PostsCount</div>
+                </div>
+                <div class="col-md-10">
+                    <article>
+                        <header>
+                            <h2>
+                                @Html.ActionLink(Model.Title, "ViewAnswers", "Question", new { @id = Model.Id }, null)
+                            </h2>
+                        </header>
+                        <p>
+                            @Model.Content
+                        </p>
+                        <footer>
+                            <small>--posted on @Model.DateAdded</small>
+                            <span class="pull-right">
+                                @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, Model.Author.UserName))
+                                {
+                                    <span>@Html.ActionLink("Edit", "Edit", "Question", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                                    <span>@Html.ActionLink("Delete", "Delete", "Question", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                                }
+
+                                <span>@Html.ActionLink("New Answer", "Create", "Answer", new { @id = Model.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                            </span>
+                        </footer>
+                    </article>
+
+                </div>
             </div>
-        }
-    </div>
-    <div class="row col-sm-offset-2">
-        @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", new { page }),
+            @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", "Question", new { page }),
                new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+
+            @foreach (var answer in Model.Answers)
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        @{
+                            var answerImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                        }
+                        <img src="@answerImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                        <h4>@answer.Author.UserName</h4>
+                        <div>Posts: @answer.Author.PostsCount</div>
+                    </div>
+
+                    <div class="col-md-10">
+                        <article>
+                            <p style="margin-top:30px">
+                                @answer.Content
+                            </p>
+                            <footer>
+                                <small>--posted on @answer.DateAdded</small>
+                                <span class="pull-right">
+                                    @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name, answer.Author.UserName))
+                                    {
+                                        <span>@Html.ActionLink("Edit", "Edit", "Answer", new { @id = answer.Id }, new { @class = "btn btn-success btn-xs" })</span>
+                                        <span>@Html.ActionLink("Delete", "Delete", "Answer", new { @id = answer.Id }, new { @class = "btn btn-danger btn-xs" })</span>
+                                    }
+                                </span>
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+                            }
+
+            @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", "Question", new { page }),
+               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+
+        </div>
     </div>
 </div>

@@ -1,35 +1,33 @@
 ﻿@model TeamProject_Forum_ASP_NET.ViewModels.EditUserViewModel
-
 @{
     ViewBag.Title = "Edit";
 }
-
 <div class="container">
     <div class="well">
         <h2>Edit User</h2>
-        @Html.ValidationSummary()
         @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
 
         @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
-                @Html.LabelFor(m => m.User.Email, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.User.Email, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.User.UserName, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.UserName, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.User.UserName, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.User.FullName, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.FullName, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.User.FullName, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
                 </div>
             </div>
 
@@ -60,6 +58,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
+                    @Html.ActionLink("Cancel", "List", "User", new { @class = "btn btn-default" })
                     <input type="submit" value="Edit" class="btn btn-success" />
                 </div>
             </div>

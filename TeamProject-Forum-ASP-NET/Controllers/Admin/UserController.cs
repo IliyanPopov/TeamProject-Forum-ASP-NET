@@ -21,12 +21,6 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
     {
         private ForumDBContext db = new ForumDBContext();
 
-        // GET: User
-        public ActionResult Index()
-        {
-            return RedirectToAction("List");
-        }
-
         public ActionResult List(string searchString, int? page)
         {
             var users = db.Users
@@ -73,7 +67,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 
             //get username from db
             var user = db.Users
-                .First(u => u.Id == id);
+                .FirstOrDefault(u => u.Id == id);
 
             //check if user exists
             if (user == null)
@@ -83,9 +77,10 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 
             //create a viewmodel and fill it 
             var viewModel = new EditUserViewModel();
-            viewModel.User = user;
+            viewModel.UserName = user.UserName;
+            viewModel.FullName = user.FullName;
+            viewModel.Email = user.Email;
             viewModel.Roles = GetUserRoles(user, db);
-
 
             //pass the model to the view
             return View(viewModel);
@@ -125,7 +120,6 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
         [HttpPost]
         public ActionResult Edit(string id, EditUserViewModel viewModel)
         {
-
             if (ModelState.IsValid)
             {
                 //get user from db
@@ -146,9 +140,9 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
                 }
 
                 //set user properties
-                user.Email = viewModel.User.Email;
-                user.FullName = viewModel.User.FullName;
-                user.UserName = viewModel.User.UserName;
+                user.Email = viewModel.Email;
+                user.FullName = viewModel.FullName;
+                user.UserName = viewModel.UserName;
                 this.SetUserRoles(viewModel, user, db);
 
                 //save changes
@@ -157,7 +151,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 
                 return RedirectToAction("List");
             }
-            return View();
+
+            return View(viewModel);
         }
 
         private void SetUserRoles(EditUserViewModel viewModel, ApplicationUser user, ForumDBContext db)

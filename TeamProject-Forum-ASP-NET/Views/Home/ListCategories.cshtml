@@ -1,28 +1,19 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
 
-@model IPagedList<TeamProject_Forum_ASP_NET.Entities.Category>
+@model List<TeamProject_Forum_ASP_NET.Entities.Category>
 
 @{
     ViewBag.Title = "ListCategories";
 }
 
-<div class="container">
-    <div class="row">
-        @foreach (var category in Model)
-            {
-            <div class="col-sm-offset-2 col-sm-8 text-uppercase">
-                <p>
-                    <h2>
-                        @Html.ActionLink(string.Format($"{category.Name}"), "ListQuestionsByCategory", "Home", new { @categoryId = category.Id }, null)
-                    </h2>
-                </p>
-            </div>
-        }       
-    </div>
-    <div class="row col-sm-offset-2">
-        @Html.PagedListPager(Model, page => Url.Action("ListCategories", new { page }),
-               new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded})
-    </div>
-</div>
+@foreach (var category in Model)
+{
+    <ul class="nav nav-pills nav-stacked">
+        <li>
+            @Html.ActionLink(string.Format($"{category.Name}"), "ListQuestionsByCategory", "Home", new { categoryId = category.Id }, null)
+        </li>
+    </ul>
+}
+
 

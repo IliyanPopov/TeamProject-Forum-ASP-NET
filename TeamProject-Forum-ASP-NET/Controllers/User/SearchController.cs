@@ -13,28 +13,34 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
 {
     public class SearchController : Controller
     {
+        //
         // GET: Search
         [HttpGet]
         public ActionResult Search()
         {
             var model = new SearchViewModel();
 
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpGet]
         public ActionResult SearchResult(SearchViewModel model, int? page)
         {
+            var questions = new List<Question>();
 
             if (ModelState.IsValid)
             {
                 using (var db = new ForumDBContext())
                 {
+                    if (model.Query == null)
+                    {
+                        return View(questions.ToPagedList(page??1,3));
+                    }
+
                     var words = model.Query
                         .ToLower()
                         .Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .ToList();
-                    var questions = new List<Question>();
 
                     if (model.Title.Equals(false) &&
                         model.Content.Equals(false) &&
@@ -47,7 +53,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                                 .Include(q => q.Answers)
                                 .Include(q => q.Tags)
                                 .Where(q => q.Title
-                                .ToLower().Contains(word) || 
+                                .ToLower().Contains(word) ||
                                 q.Content.ToLower().Contains(word) ||
                                 q.Tags.Any(t => t.Name.ToLower() == word)));
                         }
@@ -95,7 +101,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 }
             }
 
-            return RedirectToAction("Search");
+            return View(questions.ToPagedList(page ?? 1, 3));
         }
     }
 }

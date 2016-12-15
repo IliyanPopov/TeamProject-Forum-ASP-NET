@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public bool Content { get; set; }
 
         public bool Tag { get; set; }
+
+        public List<Question> Questions { get; set; }
     }
 }

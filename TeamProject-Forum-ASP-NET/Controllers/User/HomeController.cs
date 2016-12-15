@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject_Forum_ASP_NET.Entities;
@@ -13,28 +14,41 @@ namespace TeamProject_Forum_ASP_NET.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return RedirectToAction("ListCategories");
+            using (var db = new ForumDBContext())
+            {
+                var questions = db.Questions
+                    .Include(q => q.Answers)
+                    .Include(q => q.Tags)
+                    .Include(q => q.Author)
+                    .OrderBy(q => q.DateAdded)
+                    .ToList();
+
+                return View(questions.ToPagedList(page ?? 1, 3));
+            }
         }
 
-        public ActionResult ListCategories(int? page)
+        public ActionResult ListCategories()
         {
             using (var db = new ForumDBContext())
             {
                 var categories = db.Categories
-                    .Include(c => c.Questions)
                     .OrderBy(c => c.Name)
-                    .ToList()
-                    .ToPagedList(page ?? 1, 3);
+                    .ToList();
 
-                return View(categories);
+                return PartialView("ListCategories", categories);
             }
         }
 
         [HttpGet]
         public ActionResult ListQuestionsByCategory(int? categoryId, int? page)
         {
+            if (categoryId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             using (var db = new ForumDBContext())
             {
                 var questions = db.Questions
@@ -42,8 +56,14 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .Include(q => q.Answers)
                     .Include(q => q.Tags)
                     .Include(q => q.Author)
+                    .OrderBy(q => q.DateAdded)
                     .ToList()
                     .ToPagedList(page ?? 1, 3);
+
+                if (questions == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
                 return View(questions);
             }
@@ -78,7 +98,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 {
                     var model = new RankUserViewModel
                     {
-                        Username = user.UserName,
+                        UserName = user.UserName,
                         Email = user.Email,
                         FullName = user.FullName,
                         PostsCount = user.PostsCount,

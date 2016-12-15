@@ -9,26 +9,36 @@
 
 <div class="container">
     <div class="row">
-        @foreach (var user in Model)
-        {
-        <div class="col-sm-offset-2 col-sm-8">
-            <div>
-                <header>
-                    <h3>
-                        @user.Username
-                    </h3>
-                </header>
-                <div>
-                    <div>Full Name: @user.FullName</div>
-                    <div>Email: @user.Email</div>
-                    <div>Posts Count: @user.PostsCount</div>
-                </div>
-            </div>
+        <div class="col-md-2">
+            @Html.Action("ListCategories", "Home")
         </div>
-        }
-    </div>
-    <div class="row col-sm-offset-2">
-        @Html.PagedListPager(Model, page => Url.Action("RankList", new { page }),
+        <div class="col-md-8">
+            @foreach (var user in Model)
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        @{
+                            var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                        }
+                        <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                    </div>
+
+                    <div class="col-md-10">
+                        <header>
+                            <h3>
+                                @user.UserName
+                            </h3>
+                        </header>
+                        <div>
+                            <div>Full Name: @user.FullName</div>
+                            <div>Email: @user.Email</div>
+                            <div>Posts Count: @user.PostsCount</div>
+                        </div>
+                    </div>
+                </div>
+                            }
+            @Html.PagedListPager(Model, page => Url.Action("RankList","Home", new { page }),
                new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+        </div>
     </div>
 </div>

@@ -90,6 +90,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return RedirectToAction("ViewAnswers", "Question", new { id = question.Id });
             }
 
+            model.Categories = db.Categories.OrderBy(c => c.Name).ToList();
             return View(model);
         }
 
@@ -146,6 +147,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 return RedirectToAction("ViewAnswers", "Question", new { id = question.Id });
             }
 
+            model.Categories = db.Categories.OrderBy(c => c.Name).ToList();
             return View(model);
         }
 

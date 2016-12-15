@@ -11,8 +11,16 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 {
     public class EditUserViewModel
     {
+        //public ApplicationUser User { get; set; }
 
-        public ApplicationUser User { get; set; }
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
+        
+        [Required]
+        public string FullName { get; set; }
 
         public string Password { get; set; }
 
