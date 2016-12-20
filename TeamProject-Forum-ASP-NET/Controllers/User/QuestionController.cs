@@ -55,6 +55,23 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
             model.Author = question.Author;
             model.Answers = answers;
 
+           // add author photo to answer
+            foreach (var answer in answers)
+            {
+                var answerAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                string fullAnswerAuthorPhotoPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png");
+                var defaultPhotoPathAnswer = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+                
+                answer.AuthorPhotoPath = System.IO.File.Exists(fullAnswerAuthorPhotoPath) ? answerAuthorPhotoPath : defaultPhotoPathAnswer;
+            }
+
+            //add author photo to question
+            var questionAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+            string fullQuestionAuthorPhotoPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png");
+            var defaultPhotoPathQuestion = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+
+            model.AuthorPhotoPath = System.IO.File.Exists(fullQuestionAuthorPhotoPath) ? questionAuthorPhotoPath : defaultPhotoPathQuestion;
+           
             return View(model);
         }
 

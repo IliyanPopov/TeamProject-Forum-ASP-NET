@@ -78,8 +78,22 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
             };
+            
+            var photoPath = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();       
+            string fullPhotoPathUser = Request.MapPath("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png");
+            var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+
+            if (System.IO.File.Exists(fullPhotoPathUser))
+            {
+                model.ProfilePhotoPath = photoPath;
+            }
+            else
+            {
+                model.ProfilePhotoPath = defaultPhotoPath;
+            }
+
             return View(model);
         }
 

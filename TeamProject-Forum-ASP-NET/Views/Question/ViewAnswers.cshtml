@@ -19,10 +19,10 @@
 
             <div class="row well">
                 <div class="col-md-2">
-                    @{
-                        var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + Model.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                    }
-                    <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+
+                    <img src="@Model.AuthorPhotoPath" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+
+
                     <h4>@Model.Author.UserName</h4>
                     <div>Posts: @Model.Author.PostsCount</div>
                 </div>
@@ -59,10 +59,9 @@
             {
                 <div class="row well">
                     <div class="col-md-2">
-                        @{
-                            var answerImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + answer.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                        }
-                        <img src="@answerImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:35px" />
+
+                        <img src="@answer.AuthorPhotoPath" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+      
                         <h4>@answer.Author.UserName</h4>
                         <div>Posts: @answer.Author.PostsCount</div>
                     </div>
@@ -85,7 +84,7 @@
                         </article>
                     </div>
                 </div>
-                            }
+            }
 
             @Html.PagedListPager(Model.Answers, page => Url.Action("ViewAnswers", "Question", new { page }),
                new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

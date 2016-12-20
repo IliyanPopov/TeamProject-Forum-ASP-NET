@@ -26,6 +26,17 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .OrderBy(q => q.DateAdded)
                     .ToList();
 
+                foreach (var question in questions)
+                {
+                    var questionAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+
+
+                    string fullQuestionAuthorPhotoPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png");
+                    var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+
+                    question.AuthorPhotoPath = System.IO.File.Exists(fullQuestionAuthorPhotoPath) ? questionAuthorPhotoPath : defaultPhotoPath;
+
+                }
                 return View(questions.ToPagedList(page ?? 1, 3));
             }
         }
@@ -97,6 +108,23 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .OrderByDescending(u => u.PostsCount)
                     .ThenBy(u => u.UserName)
                     .ToList();
+
+                foreach (var user in users)
+                {
+                    var photoPath = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                    string fullPhotoPathUser = Request.MapPath("~/Content/Images/ProfilePhotos/" + user.UserName + ".png");
+
+                    var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+                    if (System.IO.File.Exists(fullPhotoPathUser))
+                    {
+                        user.ProfilePhotoPath = photoPath;
+                    }
+                    else
+                    {
+                        user.ProfilePhotoPath = defaultPhotoPath;
+                    }
+
+                }
 
                 return View(users.ToPagedList(page ?? 1, 3));
             }

@@ -45,5 +45,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         {
             return authorName.Equals(postAuthor);
         }
+
+        public string AuthorPhotoPath { get; set; }
     }
 }
