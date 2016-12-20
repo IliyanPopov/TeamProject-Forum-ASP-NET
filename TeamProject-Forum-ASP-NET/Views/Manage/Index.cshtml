@@ -4,7 +4,7 @@
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
@@ -68,12 +68,13 @@
                 var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
             <div class="upimage ">
                 <div class="accimg  col-sm-4">
-                    <img src="@imgUrl" height="240" width="240" />
+                    <img src="@imgUrl" height="240" width="240" style="margin-top:5px;" alt="no picture uploaded" />
                           @using (Html.BeginForm("UploadPhoto", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                        <div class="btn btn-default col-sm-10">
-                            <input type="file" name="file" id="files" onchange="this.form.submit()" />
-                        </div>
+                        <label class="btn btn-primary" style="margin-top:10px;">
+                            Upload Picture
+                            <input type="file" name="file" id="files" onchange="this.form.submit()" style="display:none;" />
+                        </label>
                     }
                 </div>
               

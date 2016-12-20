@@ -74,12 +74,12 @@ namespace TeamProject_Forum_ASP_NET.Controllers
             }
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public ActionResult Contact()
         {
@@ -93,26 +93,12 @@ namespace TeamProject_Forum_ASP_NET.Controllers
         {
             using (var db = new ForumDBContext())
             {
-                var modelList = new List<RankUserViewModel>();
                 var users = db.Users
                     .OrderByDescending(u => u.PostsCount)
                     .ThenBy(u => u.UserName)
                     .ToList();
 
-                foreach (var user in users)
-                {
-                    var model = new RankUserViewModel
-                    {
-                        UserName = user.UserName,
-                        Email = user.Email,
-                        FullName = user.FullName,
-                        PostsCount = user.PostsCount,
-                    };
-
-                    modelList.Add(model);
-                }
-
-                return View(modelList.ToPagedList(page ?? 1, 3));
+                return View(users.ToPagedList(page ?? 1, 3));
             }
         }
     }

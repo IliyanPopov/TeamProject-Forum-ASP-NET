@@ -10,7 +10,6 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 {
     public class SearchViewModel
     {
-        [Required]
         [Display(Name = "Search")]
         public string Query { get; set; }
         
@@ -18,6 +17,8 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
 
         public bool Content { get; set; }
 
-        public bool Tag { get; set; }        
+        public bool Tag { get; set; }
+
+        public IPagedList<Question> Questions { get; set; }
     }
 }

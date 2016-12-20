@@ -15,7 +15,7 @@
         <div class="col-md-8">
             @foreach (var question in Model)
             {
-                <div class="row">
+                <div class="row well">
                     <div class="col-md-2">
                         @{
                             var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
@@ -35,7 +35,7 @@
                                 <small>--posted on @question.DateAdded</small>
                                 <small>-- @question.ViewCount Views</small>
                                 <small>-- @question.Answers.Count Answers</small>
-                                <div>
+                                <div style="margin-top:15px;">
                                     @foreach (var tag in question.Tags)
                                     {
                                         <span>@Html.ActionLink(tag.Name, "ListQuestionsByTag", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })</span>

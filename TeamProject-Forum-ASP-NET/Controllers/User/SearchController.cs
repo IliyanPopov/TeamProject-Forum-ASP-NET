@@ -13,95 +13,84 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
 {
     public class SearchController : Controller
     {
-        //
-        // GET: Search
         [HttpGet]
-        public ActionResult Search()
-        {
-            var model = new SearchViewModel();
-
-            return PartialView(model);
-        }
-
-        [HttpGet]
-        public ActionResult SearchResult(SearchViewModel model, int? page)
+        public ActionResult Search(SearchViewModel model, int? page)
         {
             var questions = new List<Question>();
 
-            if (ModelState.IsValid)
+            if (model.Query == null)
             {
-                using (var db = new ForumDBContext())
-                {
-                    if (model.Query == null)
-                    {
-                        return View(questions.ToPagedList(page??1,3));
-                    }
+                model.Questions = new List<Question>().ToPagedList(page ?? 1, 3);
 
-                    var words = model.Query
-                        .ToLower()
-                        .Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .ToList();
-
-                    if (model.Title.Equals(false) &&
-                        model.Content.Equals(false) &&
-                        model.Tag.Equals(false))
-                    {
-                        foreach (var word in words)
-                        {
-                            questions.AddRange(db.Questions
-                                .Include(q => q.Author)
-                                .Include(q => q.Answers)
-                                .Include(q => q.Tags)
-                                .Where(q => q.Title
-                                .ToLower().Contains(word) ||
-                                q.Content.ToLower().Contains(word) ||
-                                q.Tags.Any(t => t.Name.ToLower() == word)));
-                        }
-                    }
-
-                    if (model.Title.Equals(true))
-                    {
-                        foreach (var word in words)
-                        {
-                            questions.AddRange(db.Questions
-                                .Include(q => q.Author)
-                                .Include(q => q.Answers)
-                                .Include(q => q.Tags)
-                                .Where(q => q.Title.ToLower().Contains(word)));
-                        }
-                    }
-
-                    if (model.Content.Equals(true))
-                    {
-                        foreach (var word in words)
-                        {
-                            questions.AddRange(db.Questions
-                                .Include(q => q.Author)
-                                .Include(q => q.Answers)
-                                .Include(q => q.Tags)
-                                .Where(q => q.Content.ToLower().Contains(word)));
-                        }
-                    }
-
-                    if (model.Tag.Equals(true))
-                    {
-                        foreach (var word in words)
-                        {
-                            questions.AddRange(db.Questions
-                                .Include(q => q.Author)
-                                .Include(q => q.Answers)
-                                .Include(q => q.Tags)
-                                .Where(q => q.Tags.Any(t => t.Name.ToLower() == word)));
-                        }
-                    }
-
-                    questions = questions.Distinct().ToList();
-
-                    return View(questions.ToPagedList(page ?? 1, 3));
-                }
+                return View(model);
             }
 
-            return View(questions.ToPagedList(page ?? 1, 3));
+            using (var db = new ForumDBContext())
+            {
+                var words = model.Query
+                    .ToLower()
+                    .Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                if (model.Title.Equals(false) &&
+                    model.Content.Equals(false) &&
+                    model.Tag.Equals(false))
+                {
+                    foreach (var word in words)
+                    {
+                        questions.AddRange(db.Questions
+                            .Include(q => q.Author)
+                            .Include(q => q.Answers)
+                            .Include(q => q.Tags)
+                            .Where(q => q.Title
+                            .ToLower().Contains(word) ||
+                            q.Content.ToLower().Contains(word) ||
+                            q.Tags.Any(t => t.Name.ToLower() == word)));
+                    }
+                }
+
+                if (model.Title.Equals(true))
+                {
+                    foreach (var word in words)
+                    {
+                        questions.AddRange(db.Questions
+                            .Include(q => q.Author)
+                            .Include(q => q.Answers)
+                            .Include(q => q.Tags)
+                            .Where(q => q.Title.ToLower().Contains(word)));
+                    }
+                }
+
+                if (model.Content.Equals(true))
+                {
+                    foreach (var word in words)
+                    {
+                        questions.AddRange(db.Questions
+                            .Include(q => q.Author)
+                            .Include(q => q.Answers)
+                            .Include(q => q.Tags)
+                            .Where(q => q.Content.ToLower().Contains(word)));
+                    }
+                }
+
+                if (model.Tag.Equals(true))
+                {
+                    foreach (var word in words)
+                    {
+                        questions.AddRange(db.Questions
+                            .Include(q => q.Author)
+                            .Include(q => q.Answers)
+                            .Include(q => q.Tags)
+                            .Where(q => q.Tags.Any(t => t.Name.ToLower() == word)));
+                    }
+                }
+
+                questions = questions.Distinct().ToList();
+                model.Questions = questions.ToPagedList(page ?? 1, 3);
+
+                return View(model);
+            }
+
         }
     }
 }

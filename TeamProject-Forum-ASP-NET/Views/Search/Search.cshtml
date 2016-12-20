@@ -1,38 +1,93 @@
-﻿@model TeamProject_Forum_ASP_NET.ViewModels.SearchViewModel
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model TeamProject_Forum_ASP_NET.ViewModels.SearchViewModel
 
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = "SearchResult";
 }
 
-<div class="row">
-    <h2>Search</h2>
-    @using (Html.BeginForm("SearchResult", "Search", FormMethod.Get, new { @class = "form-horizontal" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-
-        <div class="form-group">
-            <div class="col-sm-4">
-                @Html.TextBoxFor(m => m.Query, new { @class = "form-control" })
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Action("ListCategories", "Home")
         </div>
+        <div class="col-md-8">
+            <div class="row well">
+                <h2>Search</h2>
+                @using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-horizontal" }))
+                {
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.Query, new { @class = "form-control" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-sm-4">
-                    @Html.CheckBoxFor(m => m.Title)
-                    @Html.LabelFor(m => m.Title)
-                    @Html.CheckBoxFor(m => m.Content)
-                    @Html.LabelFor(m => m.Content)
-                    @Html.CheckBoxFor(m => m.Tag)
-                    @Html.LabelFor(m => m.Tag)
-                </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            @Html.CheckBoxFor(m => m.Title)
+                            @Html.LabelFor(m => m.Title)
+                            @Html.CheckBoxFor(m => m.Content)
+                            @Html.LabelFor(m => m.Content)
+                            @Html.CheckBoxFor(m => m.Tag)
+                            @Html.LabelFor(m => m.Tag)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-default" })
+                            <input type="submit" value="Search" class="btn btn-primary" />
+                        </div>
+                    </div>
+                }
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-4">
-                    @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-default" })
-                    <input type="submit" value="Search" class="btn btn-success" />
-                </div>
-            </div>
-    }
+            @if (Model.Questions.Count != 0)
+            {
+                foreach (var question in Model.Questions)
+                {
+                    <div class="row well">
+                        <div class="col-md-2">
+                            @{
+                                var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+                            }
+                            <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                            <h4>@question.Author.UserName</h4>
+                            <div>Posts: @question.Author.PostsCount</div>
+                        </div>
+                        <div class="col-md-10">
+                            <article>
+                                <header>
+                                    <h2>
+                                        @Html.ActionLink(question.Title, "ViewAnswers", "Question", new { @id = question.Id }, null)
+                                    </h2>
+                                </header>
+                                <footer>
+                                    <small>--posted on @question.DateAdded</small>
+                                    <small>-- @question.ViewCount Views</small>
+                                    <small>-- @question.Answers.Count Answers</small>
+                                    <div style="margin-top:15px;">
+                                        @foreach (var tag in question.Tags)
+                                        {
+                                            <span>@Html.ActionLink(tag.Name, "ListQuestionsByTag", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })</span>
+                                        }
+                                    </div>
+                                </footer>
+                            </article>
+                        </div>
+                    </div>
+                                }
+                                @Html.PagedListPager(Model.Questions, page => Url.Action("Search", "Search", new
+           {
+               page,
+               Query = Request.QueryString["Query"],
+               Title = Model.Title,
+               Content = Model.Content,
+               Tag = Model.Tag
+           }),
+                new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+                                }
+        </div>
+    </div>
 </div>

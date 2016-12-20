@@ -1,7 +1,7 @@
 ﻿@using PagedList
 @using PagedList.Mvc
 
-@model IPagedList<TeamProject_Forum_ASP_NET.ViewModels.RankUserViewModel>
+@model IPagedList<TeamProject_Forum_ASP_NET.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "RankList";
@@ -15,7 +15,7 @@
         <div class="col-md-8">
             @foreach (var user in Model)
             {
-                <div class="row">
+                <div class="row well">
                     <div class="col-md-2">
                         @{
                             var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
