@@ -191,6 +191,20 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
                 return HttpNotFound();
             }
 
+            var photoPath = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
+            string fullPhotoPathUser = Request.MapPath("~/Content/Images/ProfilePhotos/" + user.UserName + ".png");
+
+            var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+            if (System.IO.File.Exists(fullPhotoPathUser))
+            {
+                user.ProfilePhotoPath = photoPath;
+            }
+            else
+            {
+                user.ProfilePhotoPath = defaultPhotoPath;
+            }
+
+
             return View(user);
 
         }

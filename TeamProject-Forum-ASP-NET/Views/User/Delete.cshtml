@@ -11,13 +11,11 @@
         @using (Html.BeginForm("Delete", "User", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
-              <label class = "control-label col-sm-4">Profile Photo</label>
+                <label class="control-label col-sm-4">Profile Photo</label>
                 <div class="col-sm-4">
-                   @{
-                     var imgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + Model.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                    <img class ="col-sm-4" src="@imgUrl" height="100" width="100" alt="Profile Picture" />
-                    } 
-                
+
+                    <img class="col-sm-4" src="@Model.ProfilePhotoPath" height="100" width="100" alt="Profile Picture" />
+
                 </div>
             </div>
             <div class="form-group">
