@@ -17,23 +17,11 @@
             {
                 <div class="row well">
                     <div class="col-md-2">
-                        @{
-                            @*var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
 
-                            string fullPathQuestion = Request.MapPath("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png");
-                            var defaultImgUrl = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
+                        <img src="@question.AuthorPhotoPath" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                        <br />
+                        <br />
 
-                            if (System.IO.File.Exists(fullPathQuestion))
-                            {
-                                <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
-                            }
-                            else
-                            {
-                                <img src="@defaultImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
-                            }*@
-                            <img src="@question.AuthorPhotoPath" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
-                        }
-                       
                         <h4>@question.Author.UserName</h4>
                         <div>Posts: @question.Author.PostsCount</div>
                     </div>
@@ -58,7 +46,7 @@
                         </article>
                     </div>
                 </div>
-                            }
+            }
             @Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { page }),
                     new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
         </div>
