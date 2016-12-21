@@ -35,7 +35,9 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             }
 
             searchString = searchString.ToLower();
-            users = users.Where(u => u.UserName.ToLower().Contains(searchString)).ToList();
+            users = users.Where(u => u.UserName.ToLower().Contains(searchString))
+                .OrderBy(u => u.UserName)
+                .ToList();
 
             return View(users.ToPagedList(page ?? 1, 3));
         }

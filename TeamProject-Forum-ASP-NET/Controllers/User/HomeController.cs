@@ -23,7 +23,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .Include(q => q.Answers)
                     .Include(q => q.Tags)
                     .Include(q => q.Author)
-                    .OrderBy(q => q.DateAdded)
+                    .OrderByDescending(q => q.DateAdded)
                     .ToList();
 
                 foreach (var question in questions)
@@ -70,7 +70,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                     .Include(q => q.Answers)
                     .Include(q => q.Tags)
                     .Include(q => q.Author)
-                    .OrderBy(q => q.DateAdded)
+                    .OrderByDescending(q => q.DateAdded)
                     .ToList()
                     .ToPagedList(page ?? 1, 3);
 

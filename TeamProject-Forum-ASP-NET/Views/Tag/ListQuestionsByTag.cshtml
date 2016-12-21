@@ -17,10 +17,7 @@
             {
                 <div class="row well">
                     <div class="col-md-2">
-                        @{
-                            var postImgUrl = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                        }
-                        <img src="@postImgUrl" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
+                        <img src="@question.AuthorPhotoPath" height="75" width="75" alt="Profile Photo" style="margin-top:30px" />
                         <h4>@question.Author.UserName</h4>
                         <div>Posts: @question.Author.PostsCount</div>
                     </div>

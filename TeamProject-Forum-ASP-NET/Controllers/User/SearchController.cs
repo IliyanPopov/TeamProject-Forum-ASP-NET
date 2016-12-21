@@ -86,7 +86,6 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                 }
 
                 //add photo to questions
-
                 foreach (var question in questions)
                 {
                     var questionAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
@@ -96,7 +95,10 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                     question.AuthorPhotoPath = System.IO.File.Exists(fullQuestionAuthorPhotoPath) ? questionAuthorPhotoPath : defaultPhotoPathQuestion;
                 }
 
-                questions = questions.Distinct().ToList();
+                questions = questions.Distinct()
+                    .OrderByDescending(q => q.DateAdded)
+                    .ToList();
+
                 model.Questions = questions.ToPagedList(page ?? 1, 3);
 
                 return View(model);
