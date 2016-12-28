@@ -5,7 +5,6 @@ using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TeamProject_Forum_ASP_NET.Models;
 using System.Data.Entity;
-using TeamProject_Forum_ASP_NET.Migrations;
 
 namespace TeamProject_Forum_ASP_NET.Entities
 {
@@ -27,13 +26,6 @@ namespace TeamProject_Forum_ASP_NET.Entities
         public static ForumDBContext Create()
         {
             return new ForumDBContext();
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer(new 
-                MigrateDatabaseToLatestVersion<ForumDBContext, Configuration>());
-            base.OnModelCreating(modelBuilder);
         }
     }
 

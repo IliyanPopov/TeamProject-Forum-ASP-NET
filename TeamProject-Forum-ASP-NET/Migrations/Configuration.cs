@@ -1,3 +1,4 @@
+using System.Web.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TeamProject_Forum_ASP_NET.Entities;
@@ -73,11 +74,13 @@ namespace TeamProject_Forum_ASP_NET.Migrations
             };
 
             //create user object
+            var defaultPhotoPath = HostingEnvironment.MapPath("~/Content/Images/ProfilePhotos/NoPhoto.png");
             var admin = new ApplicationUser
             {
                 UserName = userName,
                 FullName = fullName,
                 Email = email,
+                ProfilePhotoPath = defaultPhotoPath
             };
 
             //create user

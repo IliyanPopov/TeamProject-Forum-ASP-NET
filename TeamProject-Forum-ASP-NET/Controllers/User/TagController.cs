@@ -29,18 +29,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                     .Include(t => t.Questions.Select(q => q.Answers))
                     .FirstOrDefault(t => t.Id == id)
                     .Questions
-                    .OrderByDescending(q => q.DateAdded)
+                    .OrderBy(q => q.DateAdded)
                     .ToList();
-
-                //add photo to questions
-                foreach (var question in questions)
-                {
-                    var questionAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                    string fullQuestionAuthorPhotoPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png");
-                    var defaultPhotoPathQuestion = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
-
-                    question.AuthorPhotoPath = System.IO.File.Exists(fullQuestionAuthorPhotoPath) ? questionAuthorPhotoPath : defaultPhotoPathQuestion;
-                }
 
                 return View(questions.ToPagedList(page ?? 1, 3));
             }

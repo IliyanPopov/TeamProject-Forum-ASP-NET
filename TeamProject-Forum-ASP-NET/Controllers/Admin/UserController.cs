@@ -13,6 +13,8 @@ using TeamProject_Forum_ASP_NET.Models;
 using TeamProject_Forum_ASP_NET.ViewModels;
 using PagedList;
 using PagedList.Mvc;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace TeamProject_Forum_ASP_NET.Controllers.Admin
 {
@@ -35,9 +37,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             }
 
             searchString = searchString.ToLower();
-            users = users.Where(u => u.UserName.ToLower().Contains(searchString))
-                .OrderBy(u => u.UserName)
-                .ToList();
+            users = users.Where(u => u.UserName.ToLower().Contains(searchString)).ToList();
 
             return View(users.ToPagedList(page ?? 1, 3));
         }
@@ -83,11 +83,11 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             viewModel.FullName = user.FullName;
             viewModel.Email = user.Email;
             viewModel.Roles = GetUserRoles(user, db);
-
-            //pass the model to the view
+            viewModel.ProfilePhotoPath = user.ProfilePhotoPath;
+                
             return View(viewModel);
         }
-
+      
         private IList<Role> GetUserRoles(ApplicationUser user, ForumDBContext db)
         {
             //create user manager
@@ -141,12 +141,25 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
                     user.PasswordHash = passwordHash;
                 }
 
+                var photoOldPath = Server.MapPath("~/Content/Images/ProfilePhotos/") + user.UserName + ".png";
+
                 //set user properties
                 user.Email = viewModel.Email;
                 user.FullName = viewModel.FullName;
                 user.UserName = viewModel.UserName;
+                user.ProfilePhotoPath = viewModel.ProfilePhotoPath;
                 this.SetUserRoles(viewModel, user, db);
 
+                //change photo name
+
+                string photoNewPath = Server.MapPath("~/Content/Images/ProfilePhotos/") + viewModel.UserName + ".png";
+                System.IO.File.Copy(photoOldPath, photoNewPath);
+                System.IO.File.Delete(photoOldPath);
+
+                //update the user propertiy     
+                var userPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/") + viewModel.UserName + ".png";
+                user.ProfilePhotoPath = userPhotoPath;
+               
                 //save changes
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
@@ -192,20 +205,6 @@ namespace TeamProject_Forum_ASP_NET.Controllers.Admin
             {
                 return HttpNotFound();
             }
-
-            var photoPath = Url.Content("~/Content/Images/ProfilePhotos/" + user.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-            string fullPhotoPathUser = Request.MapPath("~/Content/Images/ProfilePhotos/" + user.UserName + ".png");
-
-            var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
-            if (System.IO.File.Exists(fullPhotoPathUser))
-            {
-                user.ProfilePhotoPath = photoPath;
-            }
-            else
-            {
-                user.ProfilePhotoPath = defaultPhotoPath;
-            }
-
 
             return View(user);
 

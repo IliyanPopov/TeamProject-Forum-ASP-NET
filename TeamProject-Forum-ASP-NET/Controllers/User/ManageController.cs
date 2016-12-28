@@ -79,20 +79,8 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-            };
-            
-            var photoPath = Url.Content("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();       
-            string fullPhotoPathUser = Request.MapPath("~/Content/Images/ProfilePhotos/" + User.Identity.GetUserName() + ".png");
-            var defaultPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
-
-            if (System.IO.File.Exists(fullPhotoPathUser))
-            {
-                model.ProfilePhotoPath = photoPath;
-            }
-            else
-            {
-                model.ProfilePhotoPath = defaultPhotoPath;
-            }
+                ProfilePhotoPath = user.ProfilePhotoPath
+            };    
 
             return View(model);
         }
@@ -356,15 +344,24 @@ namespace TeamProject_Forum_ASP_NET.Controllers
                 var fnm = username + ".png";
                 if (fileExt.ToLower().EndsWith(".png") || fileExt.ToLower().EndsWith(".jpg") || fileExt.ToLower().EndsWith(".gif"))// Important for security if saving in webroot
                 {
-                    var filePath = HostingEnvironment.MapPath("~/Content/Images/ProfilePhotos/") + fnm;
-                    var directory = new DirectoryInfo(HostingEnvironment.MapPath("~/Content/Images/ProfilePhotos/"));
+                    var filePath = Server.MapPath("~/Content/Images/ProfilePhotos/") + fnm;
+                    var directory = new DirectoryInfo(Server.MapPath("~/Content/Images/ProfilePhotos/"));
                     if (directory.Exists == false)
                     {
                         directory.Create();
                     }
                     ViewBag.FilePath = filePath.ToString();
                     file.SaveAs(filePath);
-                    return RedirectToAction("Index", new { Message = ManageMessageId.PhotoUploadSuccess });
+
+                    var userPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/") + fnm;
+
+                    user.ProfilePhotoPath = userPhotoPath;
+                    var result = await UserManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", new { Message = ManageMessageId.PhotoUploadSuccess });
+                    }
                 }
                 else
                 {

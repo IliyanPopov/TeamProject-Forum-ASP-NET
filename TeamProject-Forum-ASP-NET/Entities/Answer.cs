@@ -45,7 +45,5 @@ namespace TeamProject_Forum_ASP_NET.Entities
         {
             return this.Author.UserName.Equals(name);
         }
-
-        public string AuthorPhotoPath { get; set; }
     }
 }

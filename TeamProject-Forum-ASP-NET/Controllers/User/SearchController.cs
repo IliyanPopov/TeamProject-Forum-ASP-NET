@@ -85,20 +85,7 @@ namespace TeamProject_Forum_ASP_NET.Controllers.User
                     }
                 }
 
-                //add photo to questions
-                foreach (var question in questions)
-                {
-                    var questionAuthorPhotoPath = Url.Content("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png") + "?time=" + DateTime.Now.ToString();
-                    string fullQuestionAuthorPhotoPath = Request.MapPath("~/Content/Images/ProfilePhotos/" + question.Author.UserName + ".png");
-                    var defaultPhotoPathQuestion = Url.Content("~/Content/Images/ProfilePhotos/NoPhoto.png");
-
-                    question.AuthorPhotoPath = System.IO.File.Exists(fullQuestionAuthorPhotoPath) ? questionAuthorPhotoPath : defaultPhotoPathQuestion;
-                }
-
-                questions = questions.Distinct()
-                    .OrderByDescending(q => q.DateAdded)
-                    .ToList();
-
+                questions = questions.Distinct().ToList();
                 model.Questions = questions.ToPagedList(page ?? 1, 3);
 
                 return View(model);

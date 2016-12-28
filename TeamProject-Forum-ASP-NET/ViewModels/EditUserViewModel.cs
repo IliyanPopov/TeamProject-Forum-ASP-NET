@@ -29,5 +29,7 @@ namespace TeamProject_Forum_ASP_NET.ViewModels
         public string ConfirmPassword { get; set; }
 
         public IList<Role> Roles { get; set; }
+
+        public string ProfilePhotoPath { get; set; }
     }
 }

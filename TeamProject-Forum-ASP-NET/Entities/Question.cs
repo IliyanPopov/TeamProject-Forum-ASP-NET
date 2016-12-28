@@ -65,7 +65,5 @@ namespace TeamProject_Forum_ASP_NET.Entities
             get { return this.tags; }
             set { this.tags = value; }
         }
-
-        public string AuthorPhotoPath { get; set; }
     }
 }

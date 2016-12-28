@@ -56,6 +56,8 @@
                 }
             </div>
 
+            @Html.HiddenFor(m =>m.ProfilePhotoPath)
+
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
                     @Html.ActionLink("Cancel", "List", "User", new { @class = "btn btn-default" })
